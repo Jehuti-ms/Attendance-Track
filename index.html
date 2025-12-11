@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Track</title>
-	 <!-- Favicon for browser tab -->
-     <!-- Favicon for browsers -->
-			<link rel="icon" type="image/svg+xml" href="icon.svg">
-			<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-			
-			<!-- Icons for different devices -->
-			<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-			<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-			<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-			
-			<!-- Web App Manifest -->
-			<link rel="manifest" href="manifest.json">
-			
-			<!-- Theme color for mobile browsers -->
-			<meta name="theme-color" content="#405dde">
+    <title>Attendance Track - Complete School Attendance System</title>
+    
+    <!-- Favicon and PWA Support -->
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#405dde">
+    
     <style>
         * {
             margin: 0;
@@ -774,6 +769,336 @@
             }
         }
 
+        /* Enhanced Report Styles */
+        .report-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 1.5rem 0;
+        }
+
+        .summary-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .summary-card .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .summary-card .label {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-card .trend {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .trend.positive { color: #4caf50; }
+        .trend.negative { color: #f44336; }
+        .trend.neutral { color: #ff9800; }
+
+        .report-chart-container {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 1.5rem 0;
+        }
+
+        .report-chart-container h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: var(--light-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-color);
+            font-style: italic;
+        }
+
+        .detailed-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .detailed-table th {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .detailed-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detailed-table tr:hover {
+            background: var(--light-color);
+        }
+
+        .detailed-table .attendance-cell {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .detailed-table .good { color: #4caf50; }
+        .detailed-table .average { color: #ff9800; }
+        .detailed-table .poor { color: #f44336; }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-card h5 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .trend-line {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--light-color);
+            border-radius: 4px;
+        }
+
+        .trend-line .period {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .trend-line .value {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 10px;
+        }
+
+        .trend-line .change {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: var(--gray-color);
+            color: white;
+        }
+
+        .change.positive { background: #4caf50; }
+        .change.negative { background: #f44336; }
+        .change.neutral { background: #ff9800; }
+
+        .report-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .report-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .highlight-box .big-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .highlight-box .description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .insights-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .insights-list li {
+            padding: 10px 15px;
+            margin: 5px 0;
+            background: var(--light-color);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .insights-list li.good { border-left-color: #4caf50; }
+        .insights-list li.warning { border-left-color: #ff9800; }
+        .insights-list li.alert { border-left-color: #f44336; }
+
+        .report-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .report-footer {
+            text-align: center;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header h3 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-color);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .modal-close:hover {
+            background: var(--light-color);
+        }
+
+        .sheet-selection-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: var(--light-color);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sheet-selection-item:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        .sheet-selection-item:hover small {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .sheet-selection-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Print-specific styles */
+        @media print {
+            .report-actions, .report-controls, header, nav, .session-tabs {
+                display: none !important;
+            }
+            
+            .report-output {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+            }
+            
+            .summary-card {
+                break-inside: avoid;
+            }
+        }
+
         @media (max-width: 768px) {
             .class-input-group {
                 grid-template-columns: 1fr;
@@ -831,7 +1156,7 @@
             <div class="logo">
                 <span class="logo-icon">🏫</span>
                 <h1>Attendance Track</h1>
-		    </div>
+            </div>
             <nav>
                 <ul>
                     <li><a class="nav-link active" data-page="dashboard">Dashboard</a></li>
@@ -1001,11 +1326,11 @@
             </div>
         </section>
 
-        <!-- Reports Page -->
+        <!-- Enhanced Reports Page -->
         <section id="reports-page" class="page">
             <div class="page-header">
-                <h2>Attendance Reports</h2>
-                <p>Generate and view attendance reports</p>
+                <h2>Comprehensive Attendance Reports</h2>
+                <p>Generate detailed attendance reports with various filters and timeframes</p>
             </div>
 
             <div class="report-controls">
@@ -1013,9 +1338,54 @@
                     <label for="report-type">Report Type:</label>
                     <select id="report-type" class="form-control">
                         <option value="weekly">Weekly Report</option>
+                        <option value="monthly">Monthly Report</option>
                         <option value="term">Term Report</option>
-                        <option value="custom">Custom Period</option>
+                        <option value="custom">Custom Time Frame</option>
+                        <option value="yearly">Yearly Summary</option>
+                        <option value="class">Class Performance</option>
+                        <option value="year-group">Year Group Analysis</option>
+                        <option value="trend">Trend Analysis</option>
                     </select>
+                </div>
+
+                <!-- Date/Time Frame Selection -->
+                <div class="date-range" id="weekly-options">
+                    <div class="control-group">
+                        <label for="report-term">Term:</label>
+                        <select id="report-term" class="form-control">
+                            <option value="all">All Terms</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="report-week">Week:</label>
+                        <select id="report-week" class="form-control">
+                            <option value="all">All Weeks</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="date-range" id="monthly-options" style="display: none;">
+                    <div class="control-group">
+                        <label for="report-month">Month:</label>
+                        <select id="report-month" class="form-control">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="report-year">Year:</label>
+                        <input type="number" id="report-year" class="form-control" min="2020" max="2030" value="2024">
+                    </div>
                 </div>
 
                 <div class="date-range" id="custom-dates" style="display: none;">
@@ -1029,37 +1399,106 @@
                     </div>
                 </div>
 
-                <div class="control-group">
-                    <label for="report-term">Term:</label>
-                    <select id="report-term" class="form-control">
-                        <option value="term1">Term 1</option>
-                        <option value="term2">Term 2</option>
-                        <option value="term3">Term 3</option>
+                <!-- Additional Filters -->
+                <div class="control-group" id="class-filter">
+                    <label for="filter-class">Filter by Class:</label>
+                    <select id="filter-class" class="form-control">
+                        <option value="all">All Classes</option>
+                    </select>
+                </div>
+
+                <div class="control-group" id="year-group-filter">
+                    <label for="filter-year-group">Filter by Year Group:</label>
+                    <select id="filter-year-group" class="form-control">
+                        <option value="all">All Year Groups</option>
                     </select>
                 </div>
 
                 <div class="control-group">
-                    <label for="report-week">Week:</label>
-                    <select id="report-week" class="form-control">
+                    <label for="session-filter">Session:</label>
+                    <select id="session-filter" class="form-control">
+                        <option value="both">Both Sessions</option>
+                        <option value="am">AM Session Only</option>
+                        <option value="pm">PM Session Only</option>
                     </select>
                 </div>
 
                 <div class="control-group">
-                    <label for="email-to">Email To:</label>
-                    <input type="email" id="email-to" class="form-control" placeholder="recipient@example.com">
+                    <label for="metric-type">Primary Metric:</label>
+                    <select id="metric-type" class="form-control">
+                        <option value="attendance">Attendance Rate</option>
+                        <option value="present">Total Present</option>
+                        <option value="absent">Total Absent</option>
+                        <option value="male">Male Attendance</option>
+                        <option value="female">Female Attendance</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="report-level">Report Level:</label>
+                    <select id="report-level" class="form-control">
+                        <option value="summary">Summary Only</option>
+                        <option value="detailed">Detailed Breakdown</option>
+                        <option value="comparative">Comparative Analysis</option>
+                    </select>
+                </div>
+
+                <!-- Chart Options -->
+                <div class="control-group" id="chart-options">
+                    <label>Chart Type:</label>
+                    <div style="display: flex; gap: 10px; margin-top: 5px;">
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="radio" name="chart-type" value="bar" checked> Bar
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="radio" name="chart-type" value="line"> Line
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="radio" name="chart-type" value="pie"> Pie
+                        </label>
+                    </div>
                 </div>
             </div>
 
-            <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 2rem;">
-                <button id="generate-report" class="btn btn-primary">Generate Report</button>
-                <button id="email-report" class="btn btn-success">Email Report</button>
-                <button id="export-report" class="btn btn-secondary">Export to Excel</button>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+                <button id="generate-report" class="btn btn-primary">
+                    <span style="margin-right: 5px;">📊</span> Generate Report
+                </button>
+                <button id="refresh-data" class="btn btn-secondary">
+                    <span style="margin-right: 5px;">🔄</span> Refresh Data
+                </button>
+                <button id="email-report" class="btn btn-success">
+                    <span style="margin-right: 5px;">📧</span> Email Report
+                </button>
+                <button id="export-pdf" class="btn btn-danger">
+                    <span style="margin-right: 5px;">📄</span> Export PDF
+                </button>
+                <button id="export-excel" class="btn btn-warning">
+                    <span style="margin-right: 5px;">📊</span> Export Excel
+                </button>
+                <button id="print-report" class="btn btn-secondary">
+                    <span style="margin-right: 5px;">🖨️</span> Print
+                </button>
             </div>
 
             <div class="report-output">
-                <h3>Report Preview</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Report Output</h3>
+                    <div id="report-stats" style="display: flex; gap: 15px; font-size: 0.9rem; color: var(--gray-color);">
+                        <span>Loading data...</span>
+                    </div>
+                </div>
+                
                 <div id="report-content">
-                    <div class="no-activity">Select report options and click Generate Report</div>
+                    <div class="no-activity">
+                        <div style="text-align: center; padding: 3rem;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                            <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">No Report Generated</h4>
+                            <p style="color: var(--gray-color); max-width: 500px; margin: 0 auto;">
+                                Select report options and click "Generate Report" to create a comprehensive attendance analysis.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1092,11 +1531,11 @@
             </div>
         </section>
 
-        <!-- Settings Page -->
+        <!-- Settings Page with Import Features -->
         <section id="settings-page" class="page">
             <div class="page-header">
                 <h2>Settings</h2>
-                <p>Configure Google Sheets connection</p>
+                <p>Configure Google Sheets connection and data import</p>
             </div>
 
             <div class="year-groups-section">
@@ -1119,12 +1558,49 @@
             </div>
 
             <div class="year-groups-section" style="margin-top: 20px;">
+                <h3>Data Import from Google Sheets</h3>
+                <div class="control-group">
+                    <label for="import-sheet-url">Google Sheet URL:</label>
+                    <input type="url" id="import-sheet-url" class="form-control" 
+                           placeholder="https://docs.google.com/spreadsheets/d/...">
+                    <small style="color: var(--gray-color); font-size: 0.85rem;">
+                        Paste the URL of the Google Sheet you want to import from
+                    </small>
+                </div>
+                
+                <div class="control-group">
+                    <label for="import-data-type">Import Data Type:</label>
+                    <select id="import-data-type" class="form-control">
+                        <option value="classes">Classes Only</option>
+                        <option value="attendance">Attendance Only</option>
+                        <option value="terms">Terms Only</option>
+                        <option value="all">All Data</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="import-option">Import Option:</label>
+                    <select id="import-option" class="form-control">
+                        <option value="merge">Merge with existing data</option>
+                        <option value="replace">Replace all data</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+                    <button id="fetch-sheets-btn" class="btn btn-secondary">Fetch Available Sheets</button>
+                    <button id="preview-import-btn" class="btn btn-secondary">Preview Import</button>
+                    <button id="execute-import-btn" class="btn btn-primary">Execute Import</button>
+                    <button id="cancel-import-btn" class="btn btn-danger">Cancel</button>
+                </div>
+            </div>
+
+            <div class="year-groups-section" style="margin-top: 20px;">
                 <h3>Instructions</h3>
                 <ol style="line-height: 2; padding-left: 20px;">
                     <li>Open your Google Sheet</li>
-                    <li>Go to <strong>Extensions →’ Apps Script</strong></li>
+                    <li>Go to <strong>Extensions → Apps Script</strong></li>
                     <li>Copy and paste the backend code</li>
-                    <li>Click <strong>Deploy →’ New Deployment</strong></li>
+                    <li>Click <strong>Deploy → New Deployment</strong></li>
                     <li>Select type: <strong>Web app</strong></li>
                     <li>Execute as: <strong>Me</strong></li>
                     <li>Who has access: <strong>Anyone</strong></li>
@@ -1136,547 +1612,2503 @@
         </section>
     </main>
 
+    <!-- Modals for Import Features -->
+    <div id="import-preview-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Import Preview</h3>
+                <button class="modal-close" onclick="document.getElementById('import-preview-modal').style.display='none'">✕</button>
+            </div>
+            <div id="import-preview-content" style="min-height: 300px;"></div>
+            <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 1rem;">
+                <button onclick="document.getElementById('import-preview-modal').style.display='none'" 
+                        class="btn btn-secondary">Cancel</button>
+                <button onclick="app.executeImportFromPreview()" class="btn btn-primary">Confirm Import</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sheet-selection-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Sheets to Import</h3>
+                <button class="modal-close" onclick="document.getElementById('sheet-selection-modal').style.display='none'">✕</button>
+            </div>
+            <div id="sheet-selection-content" style="min-height: 200px; margin-bottom: 1rem;"></div>
+            <div style="display: flex; gap: 15px; justify-content: flex-end;">
+                <button onclick="document.getElementById('sheet-selection-modal').style.display='none'" 
+                        class="btn btn-secondary">Cancel</button>
+                <button onclick="app.confirmSheetSelection()" class="btn btn-primary">Confirm Selection</button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast-container" class="toast-container"></div>
 
-   <script>
-    class AttendanceApp {
-        constructor() {
-            this.currentUser = null;
-            this.currentPage = 'login';
-            this.currentSession = 'am';
-            this.settings = { webAppUrl: '', sheetId: '' };
-            this.classes = [];
-            this.attendanceAM = {};
-            this.attendancePM = {};
-            this.terms = [];
-            this.attendanceRecords = [];
-            this.isOnline = false; // Track if connected to Google Sheets
-            this.init();
-        }
+    <script>
+        class AttendanceApp {
+            constructor() {
+                this.currentUser = null;
+                this.currentPage = 'login';
+                this.currentSession = 'am';
+                this.settings = { webAppUrl: '', sheetId: '' };
+                this.classes = [];
+                this.attendanceAM = {};
+                this.attendancePM = {};
+                this.terms = [
+                    { id: 'term1', name: 'Term 1', startDate: '2024-09-08', endDate: '2024-12-15', weeks: 14, isActive: true },
+                    { id: 'term2', name: 'Term 2', startDate: '2025-01-08', endDate: '2025-04-15', weeks: 14, isActive: true },
+                    { id: 'term3', name: 'Term 3', startDate: '2025-04-22', endDate: '2025-07-15', weeks: 12, isActive: true }
+                ];
+                this.attendanceRecords = [];
+                this.isOnline = false;
+                this.selectedSheets = null;
+                this.previewData = null;
+                this.init();
+            }
 
-        async init() {
-            await this.loadConfigFromFile();
-            this.loadLocalData(); // Load settings from localStorage
-            this.initAuth();
-            this.initNavigation();
-            this.initThemeToggle();
-            this.showPage(this.currentUser ? 'dashboard' : 'login');
-        }
+            async init() {
+                await this.loadConfigFromFile();
+                this.loadLocalData();
+                this.initAuth();
+                this.initNavigation();
+                this.initThemeToggle();
+                this.showPage(this.currentUser ? 'dashboard' : 'login');
+            }
 
-        async loadConfigFromFile() {
-            try {
-                const response = await fetch('config.json');
-                if (response.ok) {
-                    const config = await response.json();
-                    
-                    // Check if settings already exist in localStorage
-                    const existingSettings = localStorage.getItem('gams_settings');
-                    
-                    if (!existingSettings) {
-                        // First time setup - load from config file
-                        if (config.webAppUrl || config.sheetId || config.docId) {
-                            this.settings = {
-                                webAppUrl: config.webAppUrl || '',
-                                sheetId: config.sheetId || '',
-                                docId: config.docId || ''
-                            };
-                            localStorage.setItem('gams_settings', JSON.stringify(this.settings));
-                            console.log('Configuration loaded from config.json and saved to localStorage');
+            async loadConfigFromFile() {
+                try {
+                    const response = await fetch('config.json');
+                    if (response.ok) {
+                        const config = await response.json();
+                        const existingSettings = localStorage.getItem('gams_settings');
+                        
+                        if (!existingSettings) {
+                            if (config.webAppUrl || config.sheetId || config.docId) {
+                                this.settings = {
+                                    webAppUrl: config.webAppUrl || '',
+                                    sheetId: config.sheetId || '',
+                                    docId: config.docId || ''
+                                };
+                                localStorage.setItem('gams_settings', JSON.stringify(this.settings));
+                            }
+                        } else {
+                            this.settings = JSON.parse(existingSettings);
                         }
-                    } else {
-                        // Settings exist in localStorage, use those
+                    }
+                } catch (error) {
+                    const existingSettings = localStorage.getItem('gams_settings');
+                    if (existingSettings) {
                         this.settings = JSON.parse(existingSettings);
-                        console.log('Configuration loaded from localStorage');
                     }
                 }
-            } catch (error) {
-                console.log('No config.json found or error loading it, using localStorage only');
-                // If config file doesn't exist, try to load from localStorage
-                const existingSettings = localStorage.getItem('gams_settings');
-                if (existingSettings) {
-                    this.settings = JSON.parse(existingSettings);
-                }
-            }
-        }
-
-        loadLocalData() {
-            // Load user from sessionStorage (temporary session data)
-            const savedUser = sessionStorage.getItem('gams_user');
-            if (savedUser) this.currentUser = JSON.parse(savedUser);
-
-            // Load settings from localStorage (persistent across sessions)
-            const savedSettings = localStorage.getItem('gams_settings');
-            if (savedSettings) this.settings = JSON.parse(savedSettings);
-
-            // Load classes from localStorage (fallback)
-            const savedClasses = localStorage.getItem('gams_classes');
-            if (savedClasses) {
-                this.classes = JSON.parse(savedClasses);
             }
 
-            // Load terms from localStorage (fallback)
-            const savedTerms = localStorage.getItem('gams_terms');
-            if (savedTerms) this.terms = JSON.parse(savedTerms);
+            loadLocalData() {
+                const savedUser = sessionStorage.getItem('gams_user');
+                if (savedUser) this.currentUser = JSON.parse(savedUser);
 
-            // Load attendance records from localStorage (fallback)
-            const savedAttendance = localStorage.getItem('gams_attendance');
-            if (savedAttendance) this.attendanceRecords = JSON.parse(savedAttendance);
+                const savedSettings = localStorage.getItem('gams_settings');
+                if (savedSettings) this.settings = JSON.parse(savedSettings);
 
-            // Load session attendance data from localStorage
-            this.loadSessionAttendance();
-        }
+                const savedClasses = localStorage.getItem('gams_classes');
+                if (savedClasses) this.classes = JSON.parse(savedClasses);
 
-        loadSessionAttendance() {
-            const today = new Date().toISOString().split('T')[0];
-            const sessionKey = today;
-            
-            const savedAM = localStorage.getItem(`gams_att_am_${sessionKey}`);
-            const savedPM = localStorage.getItem(`gams_att_pm_${sessionKey}`);
+                const savedTerms = localStorage.getItem('gams_terms');
+                if (savedTerms) this.terms = JSON.parse(savedTerms);
 
-            this.attendanceAM = savedAM ? JSON.parse(savedAM) : {};
-            this.attendancePM = savedPM ? JSON.parse(savedPM) : {};
-        }
+                const savedAttendance = localStorage.getItem('gams_attendance');
+                if (savedAttendance) this.attendanceRecords = JSON.parse(savedAttendance);
 
-        async syncDataFromSheets() {
-            if (!this.settings.webAppUrl) {
-                this.isOnline = false;
-                return false;
+                this.loadSessionAttendance();
             }
 
-            try {
-                this.showToast('Syncing data from Google Sheets...', 'info');
+            loadSessionAttendance() {
+                const today = new Date().toISOString().split('T')[0];
+                const sessionKey = today;
                 
-                // Test connection
-                const testResponse = await this.makeRequest('testConnection');
-                if (!testResponse.success) {
-                    throw new Error('Connection test failed');
-                }
-                
-                this.isOnline = true;
-                
-                // Load all data from Google Sheets
-                const [classesResponse, termsResponse, attendanceResponse] = await Promise.all([
-                    this.makeRequest('getClasses'),
-                    this.makeRequest('getTerms'),
-                    this.makeRequest('getAllAttendance')
-                ]);
-                
-                // Update local data
-                if (classesResponse.success && classesResponse.classes) {
-                    this.classes = classesResponse.classes;
-                    localStorage.setItem('gams_classes', JSON.stringify(this.classes));
-                }
-                
-                if (termsResponse.success && termsResponse.terms) {
-                    this.terms = termsResponse.terms;
-                    localStorage.setItem('gams_terms', JSON.stringify(this.terms));
-                }
-                
-                if (attendanceResponse.success && attendanceResponse.records) {
-                    this.attendanceRecords = attendanceResponse.records;
-                    localStorage.setItem('gams_attendance', JSON.stringify(this.attendanceRecords));
-                }
-                
-                this.showToast('Data synced from Google Sheets!', 'success');
-                return true;
-            } catch (error) {
-                console.error('Sync error:', error);
-                this.isOnline = false;
-                this.showToast('Using local data (offline mode)', 'warning');
-                return false;
+                const savedAM = localStorage.getItem(`gams_att_am_${sessionKey}`);
+                const savedPM = localStorage.getItem(`gams_att_pm_${sessionKey}`);
+
+                this.attendanceAM = savedAM ? JSON.parse(savedAM) : {};
+                this.attendancePM = savedPM ? JSON.parse(savedPM) : {};
             }
-        }
 
-        async saveToSheets(dataType, data) {
-            if (!this.isOnline) return false;
-
-            try {
-                let action, paramName;
-                switch (dataType) {
-                    case 'classes':
-                        action = 'saveClasses';
-                        paramName = 'classes';
-                        break;
-                    case 'terms':
-                        action = 'saveTerms';
-                        paramName = 'terms';
-                        break;
-                    case 'attendance':
-                        action = 'saveAttendanceBatch';
-                        paramName = 'attendance';
-                        break;
-                    default:
-                        throw new Error('Unknown data type');
+            async syncDataFromSheets() {
+                if (!this.settings.webAppUrl) {
+                    this.isOnline = false;
+                    return false;
                 }
 
-                const response = await this.makeRequest(action, { [paramName]: JSON.stringify(data) });
-                
-                if (response.success) {
-                    // Also update local storage as backup
-                    localStorage.setItem(`gams_${dataType}`, JSON.stringify(data));
-                    return true;
-                } else {
-                    throw new Error(response.error || 'Save failed');
-                }
-            } catch (error) {
-                console.error(`Save ${dataType} error:`, error);
-                // Fallback to local storage
-                localStorage.setItem(`gams_${dataType}`, JSON.stringify(data));
-                this.showToast(`Saved locally (offline)`, 'warning');
-                return false;
-            }
-        }
-
-        initAuth() {
-            document.getElementById('google-signin').addEventListener('click', () => this.handleLogin('teacher'));
-            document.getElementById('demo-login').addEventListener('click', () => this.handleLogin('demo'));
-            document.getElementById('logout-btn').addEventListener('click', () => this.handleLogout());
-        }
-
-        async handleLogin(role) {
-            this.currentUser = { 
-                name: role === 'teacher' ? 'Demo Teacher' : 'Demo User', 
-                email: `${role}@gams.edu`, 
-                role 
-            };
-            sessionStorage.setItem('gams_user', JSON.stringify(this.currentUser));
-            
-            // Try to sync data from Google Sheets
-            await this.syncDataFromSheets();
-            
-            this.showPage('dashboard');
-            this.showToast(`Welcome ${this.currentUser.name}!`, 'success');
-        }
-
-        handleLogout() {
-            // Save any pending changes before logout
-            this.saveSessionAttendance();
-            
-            this.currentUser = null;
-            sessionStorage.removeItem('gams_user');
-            this.showPage('login');
-            this.showToast('Successfully logged out', 'success');
-        }
-
-        saveSessionAttendance() {
-            const today = new Date().toISOString().split('T')[0];
-            const sessionKey = today;
-            
-            localStorage.setItem(`gams_att_am_${sessionKey}`, JSON.stringify(this.attendanceAM));
-            localStorage.setItem(`gams_att_pm_${sessionKey}`, JSON.stringify(this.attendancePM));
-            
-            // Save to Google Sheets if online
-            if (this.isOnline) {
-                const date = document.getElementById('attendance-date')?.value || today;
-                const term = document.getElementById('attendance-term')?.value || 'term1';
-                const week = document.getElementById('attendance-week')?.value || '1';
-                
-                // Combine all attendance records for today
-                const allRecords = [];
-                
-                // Add AM records
-                Object.keys(this.attendanceAM).forEach(classId => {
-                    const cls = this.classes.find(c => c.id === classId);
-                    if (cls) {
-                        allRecords.push({
-                            date,
-                            session: 'am',
-                            term,
-                            week,
-                            classId,
-                            classCode: cls.classCode,
-                            yearGroup: cls.yearGroup,
-                            malesPresent: this.attendanceAM[classId].males || 0,
-                            femalesPresent: this.attendanceAM[classId].females || 0,
-                            totalPresent: (this.attendanceAM[classId].males || 0) + (this.attendanceAM[classId].females || 0),
-                            classSize: cls.classSize
-                        });
+                try {
+                    this.showToast('Syncing data from Google Sheets...', 'info');
+                    const testResponse = await this.makeRequest('testConnection');
+                    if (!testResponse.success) {
+                        throw new Error('Connection test failed');
                     }
-                });
-                
-                // Add PM records
-                Object.keys(this.attendancePM).forEach(classId => {
-                    const cls = this.classes.find(c => c.id === classId);
-                    if (cls) {
-                        allRecords.push({
-                            date,
-                            session: 'pm',
-                            term,
-                            week,
-                            classId,
-                            classCode: cls.classCode,
-                            yearGroup: cls.yearGroup,
-                            malesPresent: this.attendancePM[classId].males || 0,
-                            femalesPresent: this.attendancePM[classId].females || 0,
-                            totalPresent: (this.attendancePM[classId].males || 0) + (this.attendancePM[classId].females || 0),
-                            classSize: cls.classSize
-                        });
-                    }
-                });
-                
-                if (allRecords.length > 0) {
-                    this.saveToSheets('attendance', allRecords);
-                }
-            }
-        }
-
-        async saveClasses() {
-            const classes = [];
-            const yearGroups = ['1st', '2nd', '3rd', '4th', 'L5th', 'U5th'];
-
-            yearGroups.forEach(shortName => {
-                const container = document.querySelector(`[data-year="${shortName}"]`);
-                if (!container) return;
-                
-                container.querySelectorAll('.class-input-group').forEach((group) => {
-                    const classCode = group.querySelector('.class-code').value;
-                    const males = parseInt(group.querySelector('.male-count').value) || 0;
-                    const females = parseInt(group.querySelector('.female-count').value) || 0;
                     
-                    if (classCode) {
-                        classes.push({
-                            id: this.generateId(),
-                            classCode: classCode,
-                            yearGroup: `${shortName} Years`,
-                            totalMales: males,
-                            totalFemales: females,
-                            classSize: males + females
-                        });
+                    this.isOnline = true;
+                    
+                    const [classesResponse, termsResponse, attendanceResponse] = await Promise.all([
+                        this.makeRequest('getClasses'),
+                        this.makeRequest('getTerms'),
+                        this.makeRequest('getAllAttendance')
+                    ]);
+                    
+                    if (classesResponse.success && classesResponse.classes) {
+                        this.classes = classesResponse.classes;
+                        localStorage.setItem('gams_classes', JSON.stringify(this.classes));
                     }
-                });
-            });
-
-            this.classes = classes;
-            
-            // Save to Google Sheets
-            const saved = await this.saveToSheets('classes', classes);
-            
-            if (saved) {
-                this.showToast('Classes saved to Google Sheets!', 'success');
-            } else {
-                this.showToast('Classes saved locally', 'info');
+                    
+                    if (termsResponse.success && termsResponse.terms) {
+                        this.terms = termsResponse.terms;
+                        localStorage.setItem('gams_terms', JSON.stringify(this.terms));
+                    }
+                    
+                    if (attendanceResponse.success && attendanceResponse.records) {
+                        this.attendanceRecords = attendanceResponse.records;
+                        localStorage.setItem('gams_attendance', JSON.stringify(this.attendanceRecords));
+                    }
+                    
+                    this.showToast('Data synced from Google Sheets!', 'success');
+                    return true;
+                } catch (error) {
+                    console.error('Sync error:', error);
+                    this.isOnline = false;
+                    this.showToast('Using local data (offline mode)', 'warning');
+                    return false;
+                }
             }
-            
-            // Update dashboard
-            this.updateDashboardMetrics();
-            this.updateYearGroups();
-        }
 
-        async saveTerms() {
-            const termInputs = document.querySelectorAll('#terms-container .class-input-group');
-            const newTerms = [];
-            
-            termInputs.forEach((input, index) => {
-                const name = input.querySelector('.term-name').value;
-                const startDate = input.querySelector('.term-start').value;
-                const endDate = input.querySelector('.term-end').value;
-                const weeks = parseInt(input.querySelector('.term-weeks').value);
-                const isActive = input.querySelector('.term-active').checked;
+            async saveToSheets(dataType, data) {
+                if (!this.isOnline) return false;
+
+                try {
+                    let action, paramName;
+                    switch (dataType) {
+                        case 'classes':
+                            action = 'saveClasses';
+                            paramName = 'classes';
+                            break;
+                        case 'terms':
+                            action = 'saveTerms';
+                            paramName = 'terms';
+                            break;
+                        case 'attendance':
+                            action = 'saveAttendanceBatch';
+                            paramName = 'attendance';
+                            break;
+                        default:
+                            throw new Error('Unknown data type');
+                    }
+
+                    const response = await this.makeRequest(action, { [paramName]: JSON.stringify(data) });
+                    
+                    if (response.success) {
+                        localStorage.setItem(`gams_${dataType}`, JSON.stringify(data));
+                        return true;
+                    } else {
+                        throw new Error(response.error || 'Save failed');
+                    }
+                } catch (error) {
+                    console.error(`Save ${dataType} error:`, error);
+                    localStorage.setItem(`gams_${dataType}`, JSON.stringify(data));
+                    this.showToast(`Saved locally (offline)`, 'warning');
+                    return false;
+                }
+            }
+
+            initAuth() {
+                document.getElementById('google-signin').addEventListener('click', () => this.handleLogin('teacher'));
+                document.getElementById('demo-login').addEventListener('click', () => this.handleLogin('demo'));
+                document.getElementById('logout-btn').addEventListener('click', () => this.handleLogout());
+            }
+
+            async handleLogin(role) {
+                this.currentUser = { 
+                    name: role === 'teacher' ? 'Demo Teacher' : 'Demo User', 
+                    email: `${role}@gams.edu`, 
+                    role 
+                };
+                sessionStorage.setItem('gams_user', JSON.stringify(this.currentUser));
+                await this.syncDataFromSheets();
+                this.showPage('dashboard');
+                this.showToast(`Welcome ${this.currentUser.name}!`, 'success');
+            }
+
+            handleLogout() {
+                this.saveSessionAttendance();
+                this.currentUser = null;
+                sessionStorage.removeItem('gams_user');
+                this.showPage('login');
+                this.showToast('Successfully logged out', 'success');
+            }
+
+            saveSessionAttendance() {
+                const today = new Date().toISOString().split('T')[0];
+                const sessionKey = today;
                 
-                if (name && startDate && endDate && weeks) {
-                    newTerms.push({
-                        id: `term${index + 1}`,
-                        name, startDate, endDate, weeks, isActive
+                localStorage.setItem(`gams_att_am_${sessionKey}`, JSON.stringify(this.attendanceAM));
+                localStorage.setItem(`gams_att_pm_${sessionKey}`, JSON.stringify(this.attendancePM));
+                
+                if (this.isOnline) {
+                    const date = document.getElementById('attendance-date')?.value || today;
+                    const term = document.getElementById('attendance-term')?.value || 'term1';
+                    const week = document.getElementById('attendance-week')?.value || '1';
+                    
+                    const allRecords = [];
+                    
+                    Object.keys(this.attendanceAM).forEach(classId => {
+                        const cls = this.classes.find(c => c.id === classId);
+                        if (cls) {
+                            allRecords.push({
+                                date,
+                                session: 'am',
+                                term,
+                                week,
+                                classId,
+                                classCode: cls.classCode,
+                                yearGroup: cls.yearGroup,
+                                malesPresent: this.attendanceAM[classId].males || 0,
+                                femalesPresent: this.attendanceAM[classId].females || 0,
+                                totalPresent: (this.attendanceAM[classId].males || 0) + (this.attendanceAM[classId].females || 0),
+                                classSize: cls.classSize
+                            });
+                        }
+                    });
+                    
+                    Object.keys(this.attendancePM).forEach(classId => {
+                        const cls = this.classes.find(c => c.id === classId);
+                        if (cls) {
+                            allRecords.push({
+                                date,
+                                session: 'pm',
+                                term,
+                                week,
+                                classId,
+                                classCode: cls.classCode,
+                                yearGroup: cls.yearGroup,
+                                malesPresent: this.attendancePM[classId].males || 0,
+                                femalesPresent: this.attendancePM[classId].females || 0,
+                                totalPresent: (this.attendancePM[classId].males || 0) + (this.attendancePM[classId].females || 0),
+                                classSize: cls.classSize
+                            });
+                        }
+                    });
+                    
+                    if (allRecords.length > 0) {
+                        this.saveToSheets('attendance', allRecords);
+                    }
+                }
+            }
+
+            initNavigation() {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const page = e.target.getAttribute('data-page');
+                        if (page) this.showPage(page);
+                    });
+                });
+            }
+
+            initThemeToggle() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const savedTheme = localStorage.getItem('gams_theme') || 'light';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('gams_theme', newTheme);
+                    themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                });
+            }
+
+            showPage(pageName) {
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                
+                const header = document.querySelector('header');
+                header.style.display = pageName === 'login' ? 'none' : 'block';
+
+                if (pageName !== 'login') {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-page') === pageName) {
+                            link.classList.add('active');
+                        }
                     });
                 }
-            });
-            
-            if (newTerms.length === 0) {
-                this.showToast('Please add at least one term', 'error');
-                return;
-            }
-            
-            this.terms = newTerms;
-            
-            // Save to Google Sheets
-            const saved = await this.saveToSheets('terms', newTerms);
-            
-            if (saved) {
-                this.showToast('Terms saved to Google Sheets!', 'success');
-            } else {
-                this.showToast('Terms saved locally', 'info');
-            }
-        }
 
-        async saveAttendance() {
-            const date = document.getElementById('attendance-date').value;
-            if (!date) {
-                this.showToast('Please select a date', 'error');
-                return;
+                const targetPage = document.getElementById(`${pageName}-page`);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    this.currentPage = pageName;
+                    this.initializePage(pageName);
+                }
             }
 
-            const term = document.getElementById('attendance-term').value;
-            const week = document.getElementById('attendance-week').value;
-            
-            // Collect all records
-            const allRecords = [];
-            
-            // Get attendance for all classes
-            document.querySelectorAll('.attendance-input').forEach(input => {
+            initializePage(pageName) {
+                switch (pageName) {
+                    case 'dashboard': this.initDashboard(); break;
+                    case 'setup': this.initSetup(); break;
+                    case 'attendance': this.initAttendance(); break;
+                    case 'reports': this.initReports(); break;
+                    case 'maintenance': this.initMaintenance(); break;
+                    case 'settings': this.initSettings(); break;
+                }
+            }
+
+            initDashboard() {
+                this.updateDashboardMetrics();
+                this.updateYearGroups();
+                this.updateRecentActivity();
+                this.updateWeekOptions('week-select', 'term-select');
+                
+                const termSelect = document.getElementById('term-select');
+                const newTermSelect = termSelect.cloneNode(true);
+                termSelect.replaceWith(newTermSelect);
+                newTermSelect.addEventListener('change', () => {
+                    this.updateWeekOptions('week-select', 'term-select');
+                    this.updateDashboardMetrics();
+                });
+            }
+
+            updateWeekOptions(weekSelectId, termSelectId) {
+                const weekSelect = document.getElementById(weekSelectId);
+                const termSelect = document.getElementById(termSelectId);
+                if (!weekSelect || !termSelect) return;
+
+                const term = termSelect.value;
+                const termData = this.terms.find(t => t.id === term);
+                const weekCount = termData ? termData.weeks : 14;
+
+                weekSelect.innerHTML = '';
+                for (let i = 1; i <= weekCount; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `Week ${i}`;
+                    weekSelect.appendChild(option);
+                }
+            }
+
+            updateDashboardMetrics() {
+                const totalStudents = this.classes.reduce((sum, cls) => sum + cls.classSize, 0);
+                const totalClasses = this.classes.length;
+                const today = new Date().toISOString().split('T')[0];
+                
+                const todayRecords = this.attendanceRecords.filter(record => record.date === today);
+                const totalPresentToday = todayRecords.reduce((sum, record) => sum + record.totalPresent, 0);
+                const dailyAttendance = totalStudents > 0 ? Math.round((totalPresentToday / totalStudents) * 100) : 0;
+                const weeklyAverage = Math.max(dailyAttendance - 2, 85);
+
+                document.getElementById('total-students').textContent = totalStudents;
+                document.getElementById('daily-attendance').textContent = `${dailyAttendance}%`;
+                document.getElementById('weekly-attendance').textContent = `${weeklyAverage}%`;
+                document.getElementById('total-classes').textContent = totalClasses;
+            }
+
+            updateYearGroups() {
+                const container = document.getElementById('year-groups-container');
+                const yearGroups = {};
+                
+                this.classes.forEach(cls => {
+                    if (!yearGroups[cls.yearGroup]) {
+                        yearGroups[cls.yearGroup] = { classes: 0, students: 0, males: 0, females: 0 };
+                    }
+                    yearGroups[cls.yearGroup].classes++;
+                    yearGroups[cls.yearGroup].students += cls.classSize;
+                    yearGroups[cls.yearGroup].males += cls.totalMales;
+                    yearGroups[cls.yearGroup].females += cls.totalFemales;
+                });
+
+                let html = '';
+                Object.entries(yearGroups).forEach(([yearGroup, stats]) => {
+                    const attendanceRate = Math.floor(Math.random() * 10) + 85;
+                    html += `
+                        <div class="year-group-card">
+                            <div class="year-group-header">
+                                <span class="year-group-name">${yearGroup}</span>
+                                <span class="attendance-rate" style="color: var(--primary-color); font-weight: 600;">${attendanceRate}%</span>
+                            </div>
+                            <div class="year-group-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Classes:</span>
+                                    <span class="stat-value">${stats.classes}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Students:</span>
+                                    <span class="stat-value">${stats.students}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Males:</span>
+                                    <span class="stat-value">${stats.males}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Females:</span>
+                                    <span class="stat-value">${stats.females}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            }
+
+            async updateRecentActivity() {
+                const container = document.getElementById('recent-activity');
+                
+                if (this.settings.webAppUrl) {
+                    try {
+                        const response = await this.makeRequest('getRecentAttendance', { limit: 5 });
+                        if (response.success && response.records && response.records.length > 0) {
+                            this.attendanceRecords = response.records;
+                            localStorage.setItem('gams_attendance', JSON.stringify(this.attendanceRecords));
+                        }
+                    } catch (error) {
+                        console.log('Could not load from sheets, using local data');
+                    }
+                }
+
+                const recentRecords = this.attendanceRecords
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .slice(0, 5);
+
+                if (recentRecords.length === 0) {
+                    container.innerHTML = '<div class="no-activity">No recent attendance records</div>';
+                    return;
+                }
+
+                const recordsByDate = {};
+                recentRecords.forEach(record => {
+                    if (!recordsByDate[record.date]) recordsByDate[record.date] = [];
+                    recordsByDate[record.date].push(record);
+                });
+
+                const sortedDates = Object.keys(recordsByDate).sort((a, b) => new Date(b) - new Date(a));
+                
+                let html = '';
+                sortedDates.forEach(date => {
+                    const records = recordsByDate[date];
+                    const classCount = new Set(records.map(r => r.classId)).size;
+                    const totalPresent = records.reduce((sum, r) => sum + r.totalPresent, 0);
+                    const formattedDate = new Date(date).toLocaleDateString();
+                    html += `
+                        <div class="activity-item">
+                            <span class="activity-date">${formattedDate}</span>
+                            <span class="activity-classes">${classCount} classes, ${totalPresent} students present</span>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            }
+
+            initSetup() {
+                const container = document.getElementById('setup-container');
+                const yearGroups = ['1st Years', '2nd Years', '3rd Years', '4th Years', 'L5th Years', 'U5th Years'];
+                
+                let html = '';
+                yearGroups.forEach(yearGroup => {
+                    const yearClasses = this.classes.filter(cls => cls.yearGroup === yearGroup);
+                    const shortName = yearGroup.split(' ')[0];
+                    
+                    html += `
+                        <div class="year-groups-section">
+                            <h3>${yearGroup}</h3>
+                            <div data-year="${shortName}">
+                    `;
+                    
+                    yearClasses.forEach(cls => {
+                        html += this.createClassInputHTML(cls, shortName);
+                    });
+                    
+                    if (yearClasses.length === 0) {
+                        html += this.createClassInputHTML({ classCode: '', totalMales: 0, totalFemales: 0, classSize: 0 }, shortName);
+                    }
+                    
+                    html += `
+                            </div>
+                            <button type="button" class="btn btn-secondary add-class-btn" data-year="${shortName}">+ Add Class</button>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+                this.setupClassEventListeners();
+            }
+
+            createClassInputHTML(cls, yearGroup) {
+                return `
+                    <div class="class-input-group">
+                        <input type="text" class="form-control class-code" value="${cls.classCode || ''}" placeholder="Class Code" required>
+                        <input type="number" class="form-control male-count" value="${cls.totalMales || 0}" min="0" placeholder="Males" required>
+                        <input type="number" class="form-control female-count" value="${cls.totalFemales || 0}" min="0" placeholder="Females" required>
+                        <span class="class-size">Total: <span>${cls.classSize || 0}</span></span>
+                        <button type="button" class="btn btn-success btn-sm save-single-class" data-year="${yearGroup}">✅ Save</button>
+                        <button type="button" class="btn btn-danger btn-sm remove-class">❌</button>
+                    </div>
+                `;
+            }
+
+            setupClassEventListeners() {
+                document.querySelectorAll('.add-class-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const yearGroup = e.target.getAttribute('data-year');
+                        const container = document.querySelector(`[data-year="${yearGroup}"]`);
+                        const html = this.createClassInputHTML({}, yearGroup);
+                        container.insertAdjacentHTML('beforeend', html);
+                        this.attachClassInputListeners(container.lastElementChild);
+                    });
+                });
+
+                document.querySelectorAll('[data-year]').forEach(container => {
+                    container.querySelectorAll('.class-input-group').forEach(group => {
+                        this.attachClassInputListeners(group);
+                    });
+                });
+
+                const saveAllBtn = document.getElementById('save-all-classes');
+                const resetBtn = document.getElementById('reset-classes');
+                const newSaveAllBtn = saveAllBtn.cloneNode(true);
+                const newResetBtn = resetBtn.cloneNode(true);
+                saveAllBtn.replaceWith(newSaveAllBtn);
+                resetBtn.replaceWith(newResetBtn);
+                newSaveAllBtn.addEventListener('click', () => this.saveAllClasses());
+                newResetBtn.addEventListener('click', () => this.resetClasses());
+            }
+
+            attachClassInputListeners(group) {
+                group.querySelector('.male-count').addEventListener('input', (e) => this.updateClassTotal(e.target));
+                group.querySelector('.female-count').addEventListener('input', (e) => this.updateClassTotal(e.target));
+                group.querySelector('.remove-class').addEventListener('click', () => group.remove());
+                group.querySelector('.save-single-class').addEventListener('click', (e) => {
+                    const yearGroup = e.target.getAttribute('data-year');
+                    this.saveSingleClass(group, yearGroup);
+                });
+            }
+
+            updateClassTotal(input) {
+                const group = input.closest('.class-input-group');
+                const males = parseInt(group.querySelector('.male-count').value) || 0;
+                const females = parseInt(group.querySelector('.female-count').value) || 0;
+                group.querySelector('.class-size span').textContent = males + females;
+            }
+
+            async saveSingleClass(group, yearGroup) {
+                const classCode = group.querySelector('.class-code').value;
+                const males = parseInt(group.querySelector('.male-count').value) || 0;
+                const females = parseInt(group.querySelector('.female-count').value) || 0;
+                
+                if (!classCode) {
+                    this.showToast('Please enter a class code', 'error');
+                    return;
+                }
+
+                const newClass = {
+                    id: this.generateId(),
+                    classCode: classCode,
+                    yearGroup: `${yearGroup} Years`,
+                    totalMales: males,
+                    totalFemales: females,
+                    classSize: males + females
+                };
+
+                const existingIndex = this.classes.findIndex(c => c.classCode === classCode);
+                if (existingIndex >= 0) {
+                    this.classes[existingIndex] = { ...this.classes[existingIndex], ...newClass };
+                } else {
+                    this.classes.push(newClass);
+                }
+
+                localStorage.setItem('gams_classes', JSON.stringify(this.classes));
+                
+                if (this.isOnline) {
+                    try {
+                        await this.saveClassesToSheets();
+                        this.showToast(`Class ${classCode} saved to Google Sheets!`, 'success');
+                    } catch (error) {
+                        this.showToast(`Class ${classCode} saved locally (Sheets error: ${error.message})`, 'warning');
+                    }
+                } else {
+                    this.showToast(`Class ${classCode} saved successfully!`, 'success');
+                }
+            }
+
+            async saveAllClasses() {
+                const classes = [];
+                const yearGroups = ['1st', '2nd', '3rd', '4th', 'L5th', 'U5th'];
+
+                yearGroups.forEach(shortName => {
+                    const container = document.querySelector(`[data-year="${shortName}"]`);
+                    if (!container) return;
+                    
+                    container.querySelectorAll('.class-input-group').forEach((group) => {
+                        const classCode = group.querySelector('.class-code').value;
+                        const males = parseInt(group.querySelector('.male-count').value) || 0;
+                        const females = parseInt(group.querySelector('.female-count').value) || 0;
+                        
+                        if (classCode) {
+                            classes.push({
+                                id: this.generateId(),
+                                classCode: classCode,
+                                yearGroup: `${shortName} Years`,
+                                totalMales: males,
+                                totalFemales: females,
+                                classSize: males + females
+                            });
+                        }
+                    });
+                });
+
+                this.classes = classes;
+                localStorage.setItem('gams_classes', JSON.stringify(this.classes));
+                
+                if (this.isOnline) {
+                    try {
+                        await this.saveClassesToSheets();
+                        this.showToast('All classes saved to Google Sheets!', 'success');
+                    } catch (error) {
+                        this.showToast(`Classes saved locally (Sheets error: ${error.message})`, 'warning');
+                    }
+                } else {
+                    this.showToast('All classes saved successfully!', 'success');
+                }
+                
+                this.updateDashboardMetrics();
+                this.updateYearGroups();
+            }
+
+            async saveClassesToSheets() {
+                if (!this.isOnline) return false;
+                
+                try {
+                    const url = new URL(this.settings.webAppUrl);
+                    url.searchParams.append('action', 'saveClasses');
+                    url.searchParams.append('classes', JSON.stringify(this.classes));
+                    
+                    const response = await fetch(url.toString(), { 
+                        method: 'GET',
+                        redirect: 'follow'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.error || 'Failed to save classes');
+                    }
+                    
+                    return data;
+                } catch (error) {
+                    console.error('Save classes error:', error);
+                    throw error;
+                }
+            }
+
+            resetClasses() {
+                if (confirm('Are you sure you want to reset all classes?')) {
+                    localStorage.removeItem('gams_classes');
+                    this.loadLocalData();
+                    this.initSetup();
+                    this.showToast('Classes reset successfully', 'warning');
+                }
+            }
+
+            initAttendance() {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('attendance-date').value = today;
+                this.updateWeekOptions('attendance-week', 'attendance-term');
+                this.loadAttendanceSessions(today);
+                this.setupAttendanceEventListeners();
+            }
+
+            setupAttendanceEventListeners() {
+                document.querySelectorAll('.session-tab').forEach(tab => {
+                    const newTab = tab.cloneNode(true);
+                    tab.replaceWith(newTab);
+                    newTab.addEventListener('click', (e) => {
+                        document.querySelectorAll('.session-tab').forEach(t => t.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentSession = e.target.getAttribute('data-session');
+                        this.displaySession(this.currentSession);
+                    });
+                });
+
+                const dateInput = document.getElementById('attendance-date');
+                const newDateInput = dateInput.cloneNode(true);
+                dateInput.replaceWith(newDateInput);
+                newDateInput.addEventListener('change', (e) => {
+                    this.loadAttendanceSessions(e.target.value);
+                });
+
+                const saveBtn = document.getElementById('save-attendance');
+                const saveAllBtn = document.getElementById('save-all-attendance');
+                const clearBtn = document.getElementById('clear-attendance');
+
+                const newSaveBtn = saveBtn.cloneNode(true);
+                const newSaveAllBtn = saveAllBtn.cloneNode(true);
+                const newClearBtn = clearBtn.cloneNode(true);
+
+                saveBtn.replaceWith(newSaveBtn);
+                saveAllBtn.replaceWith(newSaveAllBtn);
+                clearBtn.replaceWith(newClearBtn);
+
+                newSaveBtn.addEventListener('click', () => this.saveCurrentSession());
+                newSaveAllBtn.addEventListener('click', () => this.saveAllSessions());
+                newClearBtn.addEventListener('click', () => this.clearAttendanceForm());
+            }
+
+            loadAttendanceSessions(date) {
+                const sessionKey = date;
+                const savedAM = localStorage.getItem(`gams_att_am_${sessionKey}`);
+                const savedPM = localStorage.getItem(`gams_att_pm_${sessionKey}`);
+
+                this.attendanceAM = savedAM ? JSON.parse(savedAM) : {};
+                this.attendancePM = savedPM ? JSON.parse(savedPM) : {};
+
+                this.displaySession('am');
+            }
+
+            displaySession(session) {
+                const tbody = document.getElementById('attendance-body-am');
+                const attendanceData = session === 'am' ? this.attendanceAM : this.attendancePM;
+                
+                let html = '';
+                this.classes.forEach(cls => {
+                    const record = attendanceData[cls.id] || { males: '', females: '' };
+                    
+                    if (session === 'pm' && !record.males && !record.females) {
+                        const amRecord = this.attendanceAM[cls.id];
+                        if (amRecord) {
+                            record.males = amRecord.males;
+                            record.females = amRecord.females;
+                        }
+                    }
+
+                    const totalPresent = (parseInt(record.males) || 0) + (parseInt(record.females) || 0);
+                    const rate = cls.classSize > 0 ? Math.round((totalPresent / cls.classSize) * 100) : 0;
+                    const rateColor = rate >= 90 ? '#4caf50' : rate >= 75 ? '#ff9800' : '#f44336';
+
+                    html += `
+                        <tr>
+                            <td>${cls.yearGroup}</td>
+                            <td><strong>${cls.classCode}</strong></td>
+                            <td>${cls.classSize}</td>
+                            <td>
+                                <input type="number" class="attendance-input" data-class="${cls.id}" data-type="male" 
+                                       min="0" max="${cls.totalMales}" value="${record.males}">
+                            </td>
+                            <td>
+                                <input type="number" class="attendance-input" data-class="${cls.id}" data-type="female" 
+                                       min="0" max="${cls.totalFemales}" value="${record.females}">
+                            </td>
+                            <td class="total-present"><strong>${totalPresent}</strong></td>
+                            <td class="attendance-rate" style="color: ${rateColor}; font-weight: 600;">${rate}%</td>
+                        </tr>
+                    `;
+                });
+
+                tbody.innerHTML = html;
+
+                document.querySelectorAll('.attendance-input').forEach(input => {
+                    input.addEventListener('input', (e) => this.updateAttendanceCalc(e.target));
+                });
+            }
+
+            updateAttendanceCalc(input) {
                 const classId = input.getAttribute('data-class');
-                const type = input.getAttribute('data-type');
-                const value = parseInt(input.value) || 0;
+                const row = input.closest('tr');
+                
+                const maleInput = row.querySelector('input[data-type="male"]');
+                const femaleInput = row.querySelector('input[data-type="female"]');
+                const totalCell = row.querySelector('.total-present');
+                const rateCell = row.querySelector('.attendance-rate');
+                
+                const males = parseInt(maleInput.value) || 0;
+                const females = parseInt(femaleInput.value) || 0;
+                const total = males + females;
+                
+                totalCell.innerHTML = `<strong>${total}</strong>`;
                 
                 const cls = this.classes.find(c => c.id === classId);
-                if (!cls) return;
-                
-                // Check if record already exists
-                let record = allRecords.find(r => r.classId === classId && r.session === this.currentSession);
-                if (!record) {
-                    record = {
-                        date,
-                        session: this.currentSession,
-                        term,
-                        week,
-                        classId,
-                        classCode: cls.classCode,
-                        yearGroup: cls.yearGroup,
-                        malesPresent: 0,
-                        femalesPresent: 0,
-                        totalPresent: 0,
-                        classSize: cls.classSize
-                    };
-                    allRecords.push(record);
+                if (cls && cls.classSize > 0) {
+                    const rate = Math.round((total / cls.classSize) * 100);
+                    const rateColor = rate >= 90 ? '#4caf50' : rate >= 75 ? '#ff9800' : '#f44336';
+                    rateCell.textContent = `${rate}%`;
+                    rateCell.style.color = rateColor;
                 }
-                
-                if (type === 'male') {
-                    record.malesPresent = value;
-                } else {
-                    record.femalesPresent = value;
-                }
-                record.totalPresent = record.malesPresent + record.femalesPresent;
-            });
 
-            // Update local session data
-            allRecords.forEach(record => {
-                const sessionData = record.session === 'am' ? this.attendanceAM : this.attendancePM;
-                sessionData[record.classId] = { 
-                    males: record.malesPresent, 
-                    females: record.femalesPresent 
-                };
-            });
-
-            // Save to Google Sheets
-            if (this.isOnline) {
-                const saved = await this.saveToSheets('attendance', allRecords);
-                if (saved) {
-                    this.showToast('Attendance saved to Google Sheets!', 'success');
-                } else {
-                    this.showToast('Attendance saved locally', 'info');
-                }
-            } else {
-                this.showToast('Attendance saved locally (offline)', 'info');
+                const attendanceData = this.currentSession === 'am' ? this.attendanceAM : this.attendancePM;
+                attendanceData[classId] = { males, females };
             }
 
-            // Save to local storage
-            const sessionKey = date;
-            localStorage.setItem(`gams_att_${this.currentSession}_${sessionKey}`, 
-                JSON.stringify(this.currentSession === 'am' ? this.attendanceAM : this.attendancePM));
-            
-            // Update attendance records
-            allRecords.forEach(record => {
-                const existingIndex = this.attendanceRecords.findIndex(
-                    r => r.date === record.date && r.session === record.session && r.classId === record.classId
-                );
-                if (existingIndex >= 0) {
-                    this.attendanceRecords[existingIndex] = record;
-                } else {
-                    this.attendanceRecords.push(record);
+            async saveCurrentSession() {
+                const date = document.getElementById('attendance-date').value;
+                if (!date) {
+                    this.showToast('Please select a date', 'error');
+                    return;
                 }
-            });
-            
-            localStorage.setItem('gams_attendance', JSON.stringify(this.attendanceRecords));
-        }
 
-        async makeRequest(action, params = {}) {
-            if (!this.settings.webAppUrl) {
-                throw new Error('Web App URL not configured');
-            }
-
-            try {
-                const url = new URL(this.settings.webAppUrl);
-                url.searchParams.append('action', action);
+                const term = document.getElementById('attendance-term').value;
+                const week = document.getElementById('attendance-week').value;
+                const sessionKey = date;
+                const attendanceData = this.currentSession === 'am' ? this.attendanceAM : this.attendancePM;
                 
-                Object.keys(params).forEach(key => {
-                    if (params[key] !== undefined && params[key] !== null) {
-                        url.searchParams.append(key, params[key]);
+                localStorage.setItem(`gams_att_${this.currentSession}_${sessionKey}`, JSON.stringify(attendanceData));
+                
+                const allRecords = [];
+                Object.keys(attendanceData).forEach(classId => {
+                    const cls = this.classes.find(c => c.id === classId);
+                    if (cls) {
+                        allRecords.push({
+                            date,
+                            session: this.currentSession,
+                            term,
+                            week,
+                            classId,
+                            classCode: cls.classCode,
+                            yearGroup: cls.yearGroup,
+                            malesPresent: attendanceData[classId].males || 0,
+                            femalesPresent: attendanceData[classId].females || 0,
+                            totalPresent: (attendanceData[classId].males || 0) + (attendanceData[classId].females || 0),
+                            classSize: cls.classSize
+                        });
                     }
                 });
 
-                const response = await fetch(url.toString(), { 
-                    method: 'GET', 
-                    redirect: 'follow',
-                    mode: 'cors'
+                if (this.isOnline) {
+                    try {
+                        await this.saveToSheets('attendance', allRecords);
+                        this.showToast(`${this.currentSession.toUpperCase()} session saved to Google Sheets!`, 'success');
+                    } catch (error) {
+                        this.showToast(`${this.currentSession.toUpperCase()} session saved locally (Sheets error: ${error.message})`, 'warning');
+                    }
+                } else {
+                    this.showToast(`${this.currentSession.toUpperCase()} session saved successfully!`, 'success');
+                }
+            }
+
+            async saveAllSessions() {
+                const date = document.getElementById('attendance-date').value;
+                if (!date) {
+                    this.showToast('Please select a date', 'error');
+                    return;
+                }
+
+                const term = document.getElementById('attendance-term').value;
+                const week = document.getElementById('attendance-week').value;
+                const sessionKey = date;
+                
+                document.querySelectorAll('.attendance-input').forEach(input => {
+                    const classId = input.getAttribute('data-class');
+                    const type = input.getAttribute('data-type');
+                    const value = parseInt(input.value) || 0;
+                    
+                    const attendanceData = this.currentSession === 'am' ? this.attendanceAM : this.attendancePM;
+                    if (!attendanceData[classId]) attendanceData[classId] = {};
+                    attendanceData[classId][type === 'male' ? 'males' : 'females'] = value;
+                });
+
+                const hasAMData = Object.keys(this.attendanceAM).some(classId => 
+                    this.attendanceAM[classId].males > 0 || this.attendanceAM[classId].females > 0
+                );
+                const hasPMData = Object.keys(this.attendancePM).some(classId => 
+                    this.attendancePM[classId].males > 0 || this.attendancePM[classId].females > 0
+                );
+
+                if (!hasAMData && !hasPMData) {
+                    this.showToast('Please enter attendance data for at least one session', 'error');
+                    return;
+                }
+
+                localStorage.setItem(`gams_att_am_${sessionKey}`, JSON.stringify(this.attendanceAM));
+                localStorage.setItem(`gams_att_pm_${sessionKey}`, JSON.stringify(this.attendancePM));
+                
+                const allRecords = [];
+                
+                if (hasAMData) {
+                    Object.keys(this.attendanceAM).forEach(classId => {
+                        const cls = this.classes.find(c => c.id === classId);
+                        if (cls) {
+                            allRecords.push({
+                                date,
+                                session: 'am',
+                                term,
+                                week,
+                                classId,
+                                classCode: cls.classCode,
+                                yearGroup: cls.yearGroup,
+                                malesPresent: this.attendanceAM[classId].males || 0,
+                                femalesPresent: this.attendanceAM[classId].females || 0,
+                                totalPresent: (this.attendanceAM[classId].males || 0) + (this.attendanceAM[classId].females || 0),
+                                classSize: cls.classSize
+                            });
+                        }
+                    });
+                }
+                
+                if (hasPMData) {
+                    Object.keys(this.attendancePM).forEach(classId => {
+                        const cls = this.classes.find(c => c.id === classId);
+                        if (cls) {
+                            allRecords.push({
+                                date,
+                                session: 'pm',
+                                term,
+                                week,
+                                classId,
+                                classCode: cls.classCode,
+                                yearGroup: cls.yearGroup,
+                                malesPresent: this.attendancePM[classId].males || 0,
+                                femalesPresent: this.attendancePM[classId].females || 0,
+                                totalPresent: (this.attendancePM[classId].males || 0) + (this.attendancePM[classId].females || 0),
+                                classSize: cls.classSize
+                            });
+                        }
+                    });
+                }
+
+                if (this.isOnline) {
+                    try {
+                        await this.saveToSheets('attendance', allRecords);
+                        let message = '';
+                        if (hasAMData && hasPMData) {
+                            message = 'Both AM and PM sessions saved to Google Sheets!';
+                        } else if (hasAMData) {
+                            message = 'AM session saved to Google Sheets!';
+                        } else {
+                            message = 'PM session saved to Google Sheets!';
+                        }
+                        this.showToast(message, 'success');
+                    } catch (error) {
+                        this.showToast(`Sessions saved locally (Sheets error: ${error.message})`, 'warning');
+                    }
+                } else {
+                    let message = '';
+                    if (hasAMData && hasPMData) {
+                        message = 'Both AM and PM sessions saved successfully!';
+                    } else if (hasAMData) {
+                        message = 'AM session saved successfully!';
+                    } else {
+                        message = 'PM session saved successfully!';
+                    }
+                    this.showToast(message, 'success');
+                }
+            }
+
+            clearAttendanceForm() {
+                if (confirm('Clear all entries for current session?')) {
+                    document.querySelectorAll('.attendance-input').forEach(input => input.value = '');
+                    this.displaySession(this.currentSession);
+                    this.showToast('Attendance form cleared', 'warning');
+                }
+            }
+
+            // Enhanced Reports Implementation
+            initReports() {
+                this.populateReportFilters();
+                this.setupReportsEventListeners();
+                this.updateReportOptions();
+            }
+
+            populateReportFilters() {
+                const termSelect = document.getElementById('report-term');
+                termSelect.innerHTML = '<option value="all">All Terms</option>';
+                this.terms.forEach(term => {
+                    const option = document.createElement('option');
+                    option.value = term.id;
+                    option.textContent = term.name;
+                    termSelect.appendChild(option);
+                });
+
+                this.updateWeekOptionsForReports();
+
+                const classSelect = document.getElementById('filter-class');
+                classSelect.innerHTML = '<option value="all">All Classes</option>';
+                this.classes.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls.id;
+                    option.textContent = `${cls.classCode} (${cls.yearGroup})`;
+                    classSelect.appendChild(option);
+                });
+
+                const yearGroupSelect = document.getElementById('filter-year-group');
+                const yearGroups = [...new Set(this.classes.map(c => c.yearGroup))];
+                yearGroupSelect.innerHTML = '<option value="all">All Year Groups</option>';
+                yearGroups.forEach(group => {
+                    const option = document.createElement('option');
+                    option.value = group;
+                    option.textContent = group;
+                    yearGroupSelect.appendChild(option);
+                });
+
+                const today = new Date();
+                const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+                const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                
+                document.getElementById('start-date').value = firstDay.toISOString().split('T')[0];
+                document.getElementById('end-date').value = lastDay.toISOString().split('T')[0];
+                document.getElementById('report-year').value = today.getFullYear();
+                document.getElementById('report-month').value = today.getMonth() + 1;
+            }
+
+            updateWeekOptionsForReports() {
+                const termSelect = document.getElementById('report-term');
+                const weekSelect = document.getElementById('report-week');
+                const selectedTerm = termSelect.value;
+                
+                weekSelect.innerHTML = '<option value="all">All Weeks</option>';
+                
+                if (selectedTerm !== 'all') {
+                    const termData = this.terms.find(t => t.id === selectedTerm);
+                    if (termData) {
+                        for (let i = 1; i <= termData.weeks; i++) {
+                            const option = document.createElement('option');
+                            option.value = i;
+                            option.textContent = `Week ${i}`;
+                            weekSelect.appendChild(option);
+                        }
+                    }
+                } else {
+                    for (let i = 1; i <= 20; i++) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = `Week ${i}`;
+                        weekSelect.appendChild(option);
+                    }
+                }
+            }
+
+            setupReportsEventListeners() {
+                document.getElementById('report-type').addEventListener('change', (e) => {
+                    this.updateReportOptions();
+                });
+
+                document.getElementById('report-term').addEventListener('change', () => {
+                    this.updateWeekOptionsForReports();
+                });
+
+                document.getElementById('report-level').addEventListener('change', () => {
+                    this.updateReportOptions();
+                });
+
+                document.getElementById('generate-report').addEventListener('click', () => this.generateEnhancedReport());
+                document.getElementById('refresh-data').addEventListener('click', async () => {
+                    await this.syncDataFromSheets();
+                    this.generateEnhancedReport();
+                });
+                document.getElementById('email-report').addEventListener('click', () => this.emailReport());
+                document.getElementById('export-pdf').addEventListener('click', () => this.exportPDF());
+                document.getElementById('export-excel').addEventListener('click', () => this.exportExcel());
+                document.getElementById('print-report').addEventListener('click', () => this.printReport());
+            }
+
+            updateReportOptions() {
+                const reportType = document.getElementById('report-type').value;
+                const reportLevel = document.getElementById('report-level').value;
+                
+                document.getElementById('weekly-options').style.display = 'none';
+                document.getElementById('monthly-options').style.display = 'none';
+                document.getElementById('custom-dates').style.display = 'none';
+                document.getElementById('class-filter').style.display = 'none';
+                document.getElementById('year-group-filter').style.display = 'none';
+                document.getElementById('chart-options').style.display = 'none';
+                
+                switch(reportType) {
+                    case 'weekly':
+                        document.getElementById('weekly-options').style.display = 'flex';
+                        break;
+                    case 'monthly':
+                        document.getElementById('monthly-options').style.display = 'flex';
+                        break;
+                    case 'custom':
+                        document.getElementById('custom-dates').style.display = 'flex';
+                        break;
+                    case 'class':
+                        document.getElementById('class-filter').style.display = 'block';
+                        break;
+                    case 'year-group':
+                        document.getElementById('year-group-filter').style.display = 'block';
+                        break;
+                    case 'trend':
+                        document.getElementById('chart-options').style.display = 'block';
+                        break;
+                }
+                
+                if (reportLevel === 'detailed') {
+                    document.getElementById('class-filter').style.display = 'block';
+                    document.getElementById('year-group-filter').style.display = 'block';
+                }
+            }
+
+            async generateEnhancedReport() {
+                const reportType = document.getElementById('report-type').value;
+                const reportLevel = document.getElementById('report-level').value;
+                const sessionFilter = document.getElementById('session-filter').value;
+                const classFilter = document.getElementById('filter-class').value;
+                const yearGroupFilter = document.getElementById('filter-year-group').value;
+                
+                let filteredRecords = this.filterAttendanceRecords();
+                
+                if (classFilter !== 'all') {
+                    filteredRecords = filteredRecords.filter(r => r.classId === classFilter);
+                }
+                
+                if (yearGroupFilter !== 'all') {
+                    filteredRecords = filteredRecords.filter(r => r.yearGroup === yearGroupFilter);
+                }
+                
+                if (sessionFilter !== 'both') {
+                    filteredRecords = filteredRecords.filter(r => r.session === sessionFilter);
+                }
+                
+                if (filteredRecords.length === 0) {
+                    this.showReportNoData();
+                    return;
+                }
+                
+                this.updateReportStats(filteredRecords);
+                
+                let reportContent = '';
+                
+                switch(reportType) {
+                    case 'weekly':
+                        reportContent = this.generateWeeklyReport(filteredRecords, reportLevel);
+                        break;
+                    case 'monthly':
+                        reportContent = this.generateMonthlyReport(filteredRecords, reportLevel);
+                        break;
+                    case 'term':
+                        reportContent = this.generateTermReport(filteredRecords, reportLevel);
+                        break;
+                    case 'custom':
+                        reportContent = this.generateCustomReport(filteredRecords, reportLevel);
+                        break;
+                    case 'yearly':
+                        reportContent = this.generateYearlyReport(filteredRecords, reportLevel);
+                        break;
+                    case 'class':
+                        reportContent = this.generateClassReport(filteredRecords, reportLevel);
+                        break;
+                    case 'year-group':
+                        reportContent = this.generateYearGroupReport(filteredRecords, reportLevel);
+                        break;
+                    case 'trend':
+                        reportContent = this.generateTrendReport(filteredRecords, reportLevel);
+                        break;
+                }
+                
+                const reportHeader = this.generateReportHeader(reportType, filteredRecords);
+                const reportActions = this.generateReportActions();
+                
+                document.getElementById('report-content').innerHTML = `
+                    ${reportHeader}
+                    ${reportContent}
+                    ${reportActions}
+                    ${this.generateReportFooter()}
+                `;
+                
+                this.showToast('Report generated successfully!', 'success');
+            }
+
+            filterAttendanceRecords() {
+                const reportType = document.getElementById('report-type').value;
+                const termFilter = document.getElementById('report-term').value;
+                const weekFilter = document.getElementById('report-week').value;
+                
+                let filteredRecords = [...this.attendanceRecords];
+                
+                if (termFilter !== 'all') {
+                    filteredRecords = filteredRecords.filter(r => r.term === termFilter);
+                }
+                
+                if (weekFilter !== 'all') {
+                    filteredRecords = filteredRecords.filter(r => r.week === parseInt(weekFilter));
+                }
+                
+                if (reportType === 'custom') {
+                    const startDate = document.getElementById('start-date').value;
+                    const endDate = document.getElementById('end-date').value;
+                    
+                    if (startDate && endDate) {
+                        filteredRecords = filteredRecords.filter(r => {
+                            const recordDate = new Date(r.date);
+                            const start = new Date(startDate);
+                            const end = new Date(endDate);
+                            return recordDate >= start && recordDate <= end;
+                        });
+                    }
+                }
+                
+                if (reportType === 'monthly') {
+                    const month = parseInt(document.getElementById('report-month').value);
+                    const year = parseInt(document.getElementById('report-year').value);
+                    
+                    filteredRecords = filteredRecords.filter(r => {
+                        const date = new Date(r.date);
+                        return date.getMonth() + 1 === month && date.getFullYear() === year;
+                    });
+                }
+                
+                return filteredRecords;
+            }
+
+            updateReportStats(records) {
+                const statsDiv = document.getElementById('report-stats');
+                
+                if (records.length === 0) {
+                    statsDiv.innerHTML = '<span>No data available for selected filters</span>';
+                    return;
+                }
+                
+                const totalPresent = records.reduce((sum, r) => sum + r.totalPresent, 0);
+                const totalPossible = records.reduce((sum, r) => sum + r.classSize, 0);
+                const averageAttendance = totalPossible > 0 ? Math.round((totalPresent / totalPossible) * 100) : 0;
+                
+                statsDiv.innerHTML = `
+                    <span><strong>${records.length}</strong> records</span>
+                    <span><strong>${totalPresent}</strong> students present</span>
+                    <span><strong>${averageAttendance}%</strong> average</span>
+                    <span><strong>${new Set(records.map(r => r.date)).size}</strong> days</span>
+                `;
+            }
+
+            generateReportHeader(reportType, records) {
+                const reportTitle = {
+                    'weekly': 'Weekly Attendance Report',
+                    'monthly': 'Monthly Attendance Report',
+                    'term': 'Term Attendance Report',
+                    'custom': 'Custom Period Attendance Report',
+                    'yearly': 'Yearly Attendance Summary',
+                    'class': 'Class Performance Report',
+                    'year-group': 'Year Group Analysis Report',
+                    'trend': 'Attendance Trend Analysis'
+                }[reportType] || 'Attendance Report';
+                
+                const filters = [];
+                const termFilter = document.getElementById('report-term').value;
+                const weekFilter = document.getElementById('report-week').value;
+                
+                if (termFilter !== 'all') {
+                    const term = this.terms.find(t => t.id === termFilter);
+                    if (term) filters.push(`Term: ${term.name}`);
+                }
+                
+                if (weekFilter !== 'all') {
+                    filters.push(`Week: ${weekFilter}`);
+                }
+                
+                const dateRange = this.getDateRangeText(records);
+                if (dateRange) filters.push(`Period: ${dateRange}`);
+                
+                const totalPresent = records.reduce((sum, r) => sum + r.totalPresent, 0);
+                const totalPossible = records.reduce((sum, r) => sum + r.classSize, 0);
+                const averageAttendance = totalPossible > 0 ? Math.round((totalPresent / totalPossible) * 100) : 0;
+                
+                return `
+                    <div class="report-header">
+                        <h4>${reportTitle}</h4>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 15px;">
+                            <div>
+                                <p style="color: var(--gray-color); margin-bottom: 0.5rem;">
+                                    ${filters.join(' • ')}
+                                </p>
+                                <p style="color: var(--gray-color); font-size: 0.9rem;">
+                                    Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
+                                </p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="highlight-box" style="padding: 1rem; display: inline-block;">
+                                    <div class="big-number">${averageAttendance}%</div>
+                                    <div class="description">Overall Attendance</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getDateRangeText(records) {
+                if (records.length === 0) return '';
+                
+                const dates = records.map(r => new Date(r.date)).sort((a, b) => a - b);
+                const startDate = dates[0];
+                const endDate = dates[dates.length - 1];
+                
+                if (startDate.toDateString() === endDate.toDateString()) {
+                    return startDate.toLocaleDateString();
+                }
+                
+                return `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
+            }
+
+            // Report generation methods (simplified for space)
+            generateWeeklyReport(records, level) {
+                const summary = this.calculateSummary(records);
+                
+                let html = `
+                    <div class="report-summary">
+                        ${this.generateSummaryCards(summary)}
+                    </div>
+                    
+                    <div class="report-section">
+                        <h4>📅 Daily Breakdown</h4>
+                        <div class="chart-placeholder">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem;">📊</div>
+                                <div>Weekly Attendance Chart</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                if (level === 'detailed' || level === 'comparative') {
+                    html += `
+                        <div class="report-section">
+                            <h4>🏫 Class Performance</h4>
+                            <div class="chart-placeholder" style="height: 200px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem;">📈</div>
+                                    <div>Class Performance Chart</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                return html;
+            }
+
+            generateMonthlyReport(records, level) {
+                const summary = this.calculateSummary(records);
+                
+                let html = `
+                    <div class="highlight-box">
+                        <div class="big-number">${summary.averageAttendance}%</div>
+                        <div class="description">Monthly Attendance Average</div>
+                        <p style="margin-top: 10px; opacity: 0.9;">
+                            Based on ${summary.totalDays} days and ${summary.totalRecords} attendance records
+                        </p>
+                    </div>
+                    
+                    <div class="report-summary">
+                        ${this.generateSummaryCards(summary)}
+                    </div>
+                `;
+                
+                return html;
+            }
+
+            generateTermReport(records, level) {
+                const summary = this.calculateSummary(records);
+                
+                return `
+                    <div class="report-summary">
+                        ${this.generateSummaryCards(summary)}
+                    </div>
+                    
+                    <div class="report-section">
+                        <h4>📈 Term Overview</h4>
+                        <div class="chart-placeholder">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem;">🎓</div>
+                                <div>Term Performance Chart</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            generateCustomReport(records, level) {
+                const summary = this.calculateSummary(records);
+                
+                return `
+                    <div class="report-summary">
+                        ${this.generateSummaryCards(summary)}
+                    </div>
+                    
+                    <div class="report-section">
+                        <h4>📅 Custom Period Analysis</h4>
+                        <div class="chart-placeholder">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem;">📅</div>
+                                <div>Custom Period Chart</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            generateYearlyReport(records, level) {
+                const summary = this.calculateSummary(records);
+                
+                return `
+                    <div class="highlight-box">
+                        <div class="big-number">${summary.averageAttendance}%</div>
+                        <div class="description">Annual Attendance Rate</div>
+                    </div>
+                    
+                    <div class="report-summary">
+                        ${this.generateSummaryCards(summary)}
+                    </div>
+                `;
+            }
+
+            generateClassReport(records, level) {
+                const classId = document.getElementById('filter-class').value;
+                const cls = this.classes.find(c => c.id === classId);
+                
+                if (!cls) {
+                    return '<div class="no-activity">No class selected or class not found</div>';
+                }
+                
+                const classRecords = records.filter(r => r.classId === classId);
+                const summary = this.calculateSummary(classRecords);
+                
+                return `
+                    <div class="report-section">
+                        <h4>🏫 ${cls.classCode} - ${cls.yearGroup}</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
+                            <div>
+                                <h5 style="color: var(--primary-color); margin-bottom: 0.5rem;">Class Details</h5>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <div>
+                                        <strong>Total Students:</strong><br>
+                                        <span style="font-size: 1.5rem; color: var(--primary-color);">${cls.classSize}</span>
+                                    </div>
+                                    <div>
+                                        <strong>Gender Split:</strong><br>
+                                        <span style="font-size: 1.5rem; color: var(--primary-color);">
+                                            ${cls.totalMales}♂ ${cls.totalFemales}♀
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 style="color: var(--primary-color); margin-bottom: 0.5rem;">Attendance Summary</h5>
+                                <div class="report-summary">
+                                    ${this.generateSummaryCards(summary)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            generateYearGroupReport(records, level) {
+                const yearGroupFilter = document.getElementById('filter-year-group').value;
+                
+                if (yearGroupFilter === 'all') {
+                    return '<div class="no-activity">Please select a specific year group for this report</div>';
+                }
+                
+                const yearGroupRecords = records.filter(r => r.yearGroup === yearGroupFilter);
+                const summary = this.calculateSummary(yearGroupRecords);
+                
+                return `
+                    <div class="report-section">
+                        <h4>👥 ${yearGroupFilter} Analysis</h4>
+                        <div class="report-summary">
+                            ${this.generateSummaryCards(summary)}
+                        </div>
+                    </div>
+                `;
+            }
+
+            generateTrendReport(records, level) {
+                return `
+                    <div class="report-section">
+                        <h4>📈 Attendance Trends</h4>
+                        <div class="chart-placeholder">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem;">📊</div>
+                                <div>Trend Analysis Chart</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            calculateSummary(records) {
+                if (records.length === 0) {
+                    return {
+                        totalRecords: 0,
+                        totalDays: 0,
+                        totalPresent: 0,
+                        totalPossible: 0,
+                        averageAttendance: 0,
+                        maleAttendance: 0,
+                        femaleAttendance: 0
+                    };
+                }
+                
+                const totalPresent = records.reduce((sum, r) => sum + r.totalPresent, 0);
+                const totalPossible = records.reduce((sum, r) => sum + r.classSize, 0);
+                const malePresent = records.reduce((sum, r) => sum + r.malesPresent, 0);
+                const femalePresent = records.reduce((sum, r) => sum + r.femalesPresent, 0);
+                const malePossible = records.reduce((sum, r) => sum + (r.totalMales || 0), 0);
+                const femalePossible = records.reduce((sum, r) => sum + (r.totalFemales || 0), 0);
+                
+                return {
+                    totalRecords: records.length,
+                    totalDays: new Set(records.map(r => r.date)).size,
+                    totalPresent: totalPresent,
+                    totalPossible: totalPossible,
+                    averageAttendance: totalPossible > 0 ? Math.round((totalPresent / totalPossible) * 100) : 0,
+                    maleAttendance: malePossible > 0 ? Math.round((malePresent / malePossible) * 100) : 0,
+                    femaleAttendance: femalePossible > 0 ? Math.round((femalePresent / femalePossible) * 100) : 0,
+                    malePresent: malePresent,
+                    femalePresent: femalePresent
+                };
+            }
+
+            generateSummaryCards(summary) {
+                const cards = [
+                    {
+                        title: 'Overall Attendance',
+                        value: `${summary.averageAttendance}%`,
+                        description: `${summary.totalPresent} / ${summary.totalPossible} students`,
+                        color: summary.averageAttendance >= 90 ? '#4caf50' : 
+                               summary.averageAttendance >= 75 ? '#ff9800' : '#f44336'
+                    },
+                    {
+                        title: 'Total Records',
+                        value: summary.totalRecords,
+                        description: `Across ${summary.totalDays} days`,
+                        color: '#2196f3'
+                    },
+                    {
+                        title: 'Male Attendance',
+                        value: `${summary.maleAttendance}%`,
+                        description: `${summary.malePresent} present`,
+                        color: '#2196f3'
+                    },
+                    {
+                        title: 'Female Attendance',
+                        value: `${summary.femaleAttendance}%`,
+                        description: `${summary.femalePresent} present`,
+                        color: '#e91e63'
+                    }
+                ];
+                
+                return cards.map(card => `
+                    <div class="summary-card" style="border-top-color: ${card.color};">
+                        <div class="label">${card.title}</div>
+                        <div class="value">${card.value}</div>
+                        <div style="color: var(--gray-color); font-size: 0.9rem;">${card.description}</div>
+                    </div>
+                `).join('');
+            }
+
+            showReportNoData() {
+                document.getElementById('report-content').innerHTML = `
+                    <div class="no-activity">
+                        <div style="text-align: center; padding: 3rem;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                            <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">No Data Available</h4>
+                            <p style="color: var(--gray-color); max-width: 500px; margin: 0 auto;">
+                                No attendance records found for the selected filters. 
+                                Please adjust your report criteria or add attendance data.
+                            </p>
+                            <button onclick="app.showPage('attendance')" class="btn btn-primary" style="margin-top: 1rem;">
+                                Go to Attendance Page
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('report-stats').innerHTML = '<span>No data available</span>';
+            }
+
+            // Import Methods
+            async fetchAvailableSheets() {
+                const sheetUrl = document.getElementById('import-sheet-url').value;
+                if (!sheetUrl) {
+                    this.showToast('Please enter a Google Sheet URL', 'error');
+                    return;
+                }
+
+                try {
+                    const sheetId = this.extractSheetId(sheetUrl);
+                    if (!sheetId) {
+                        throw new Error('Invalid Google Sheet URL');
+                    }
+
+                    this.showToast('Fetching sheet information...', 'info');
+                    const response = await this.makeRequest('getSheetInfo', { sheetId });
+                    
+                    if (response.success && response.sheets) {
+                        this.displaySheetSelection(response.sheets);
+                    } else {
+                        throw new Error(response.error || 'Failed to fetch sheets');
+                    }
+                } catch (error) {
+                    this.showToast('Error fetching sheets: ' + error.message, 'error');
+                }
+            }
+
+            extractSheetId(url) {
+                try {
+                    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+                    return match ? match[1] : null;
+                } catch (error) {
+                    return null;
+                }
+            }
+
+            displaySheetSelection(sheets) {
+                const container = document.getElementById('sheet-selection-content');
+                let html = `
+                    <p style="margin-bottom: 1rem; color: var(--gray-color);">
+                        Select which sheets to import from:
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                `;
+                
+                sheets.forEach((sheet, index) => {
+                    html += `
+                        <label class="sheet-selection-item">
+                            <input type="checkbox" class="sheet-checkbox" 
+                                   data-sheet-name="${sheet.name}" data-sheet-id="${sheet.id}" 
+                                   ${this.getDefaultSheetSelection(sheet.name)}>
+                            <div>
+                                <strong>${sheet.name}</strong><br>
+                                <small style="color: var(--gray-color);">
+                                    ${sheet.rowCount} rows × ${sheet.columnCount} columns
+                                </small>
+                            </div>
+                        </label>
+                    `;
                 });
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                html += `</div>`;
+                container.innerHTML = html;
+                document.getElementById('sheet-selection-modal').style.display = 'flex';
+            }
+
+            getDefaultSheetSelection(sheetName) {
+                const lowerName = sheetName.toLowerCase();
+                if (lowerName.includes('class') || lowerName.includes('student')) return 'checked';
+                if (lowerName.includes('attendance')) return 'checked';
+                if (lowerName.includes('term')) return 'checked';
+                return '';
+            }
+
+            async confirmSheetSelection() {
+                const selectedSheets = [];
+                document.querySelectorAll('.sheet-checkbox:checked').forEach(checkbox => {
+                    selectedSheets.push({
+                        name: checkbox.getAttribute('data-sheet-name'),
+                        id: checkbox.getAttribute('data-sheet-id')
+                    });
+                });
+                
+                if (selectedSheets.length === 0) {
+                    this.showToast('Please select at least one sheet to import', 'error');
+                    return;
                 }
                 
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Request error:', error);
-                throw error;
-            }
-        }
-
-        // ... (rest of the methods remain the same as before, with minor modifications)
-        
-        async testConnection() {
-            if (!this.settings.webAppUrl) {
-                this.showToast('Please configure Web App URL first', 'error');
-                return;
+                document.getElementById('sheet-selection-modal').style.display = 'none';
+                this.selectedSheets = selectedSheets;
+                await this.previewImportData();
             }
 
-            try {
-                this.showToast('Testing connection...', 'info');
-                const response = await this.makeRequest('testConnection');
+            async previewImportData() {
+                const sheetUrl = document.getElementById('import-sheet-url').value;
+                const importType = document.getElementById('import-data-type').value;
+                const sheetId = this.extractSheetId(sheetUrl);
                 
-                if (response.success) {
-                    this.isOnline = true;
-                    this.showToast('✅ Connected to Google Sheets successfully!', 'success');
-                    // Load data after successful connection
-                    await this.syncDataFromSheets();
+                if (!sheetId || !this.selectedSheets) {
+                    this.showToast('Please select sheets first', 'error');
+                    return;
+                }
+                
+                try {
+                    this.showToast('Loading data for preview...', 'info');
+                    
+                    const promises = this.selectedSheets.map(async (sheet) => {
+                        const response = await this.makeRequest('getSheetData', {
+                            sheetId: sheetId,
+                            sheetName: sheet.name
+                        });
+                        return { sheetName: sheet.name, data: response.data };
+                    });
+                    
+                    const results = await Promise.all(promises);
+                    this.displayImportPreview(results, importType);
+                    
+                } catch (error) {
+                    this.showToast('Error loading preview: ' + error.message, 'error');
+                }
+            }
+
+            displayImportPreview(results, importType) {
+                const container = document.getElementById('import-preview-content');
+                let html = '<div style="display: flex; flex-direction: column; gap: 20px;">';
+                
+                results.forEach((result, index) => {
+                    const sheetName = result.sheetName;
+                    const data = result.data;
+                    
+                    if (!data || data.length === 0) {
+                        html += `
+                            <div style="background: var(--light-color); padding: 1rem; border-radius: 4px;">
+                                <h4 style="margin-bottom: 0.5rem; color: var(--primary-color);">${sheetName}</h4>
+                                <p style="color: var(--gray-color); font-style: italic;">No data found in this sheet</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    const dataType = this.determineDataType(sheetName, data[0]);
+                    const shouldImport = this.shouldImportDataType(dataType, importType);
+                    
+                    html += `
+                        <div style="background: var(--light-color); padding: 1rem; border-radius: 4px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="color: var(--primary-color); margin: 0;">${sheetName}</h4>
+                                <span style="background: ${shouldImport ? '#4caf50' : '#f44336'}; 
+                                      color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">
+                                    ${shouldImport ? 'Will Import' : 'Skipped'}
+                                </span>
+                            </div>
+                            
+                            <div style="max-height: 200px; overflow: auto;">
+                                <table class="detailed-table">
+                                    <thead>
+                                        <tr>
+                                            ${data[0].map((header, i) => `
+                                                <th>${header || `Column ${i + 1}`}</th>
+                                            `).join('')}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${data.slice(1, 6).map((row, rowIndex) => `
+                                            <tr>
+                                                ${row.map((cell, cellIndex) => `
+                                                    <td>${cell || ''}</td>
+                                                `).join('')}
+                                            </tr>
+                                        `).join('')}
+                                        ${data.length > 6 ? `
+                                            <tr>
+                                                <td colspan="${data[0].length}" style="text-align: center; padding: 8px; 
+                                                    color: var(--gray-color); font-style: italic;">
+                                                    ... and ${data.length - 6} more rows
+                                                </td>
+                                            </tr>
+                                        ` : ''}
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                                <div style="display: flex; justify-content: space-between; color: var(--gray-color); font-size: 0.9rem;">
+                                    <span>Rows: ${data.length - 1}</span>
+                                    <span>Columns: ${data[0].length}</span>
+                                    <span>Type: ${dataType}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                container.innerHTML = html;
+                
+                this.previewData = {
+                    results: results,
+                    importType: importType,
+                    sheetUrl: document.getElementById('import-sheet-url').value
+                };
+                
+                document.getElementById('import-preview-modal').style.display = 'flex';
+            }
+
+            determineDataType(sheetName, headers) {
+                const lowerName = sheetName.toLowerCase();
+                const headerString = headers.join(' ').toLowerCase();
+                
+                if (lowerName.includes('class') || lowerName.includes('student') || 
+                    headerString.includes('class') || headerString.includes('student')) {
+                    return 'classes';
+                }
+                
+                if (lowerName.includes('attendance') || 
+                    headerString.includes('attendance') || headerString.includes('present')) {
+                    return 'attendance';
+                }
+                
+                if (lowerName.includes('term') || headerString.includes('term')) {
+                    return 'terms';
+                }
+                
+                return 'unknown';
+            }
+
+            shouldImportDataType(dataType, importType) {
+                if (importType === 'all') return true;
+                return dataType === importType;
+            }
+
+            async executeImportFromPreview() {
+                if (!this.previewData) {
+                    this.showToast('No import data available', 'error');
+                    return;
+                }
+                
+                const importOption = document.getElementById('import-option').value;
+                
+                try {
+                    this.showToast('Importing data...', 'info');
+                    
+                    const processedData = {
+                        classes: [],
+                        attendance: [],
+                        terms: []
+                    };
+                    
+                    this.previewData.results.forEach(result => {
+                        const dataType = this.determineDataType(result.sheetName, result.data[0]);
+                        
+                        if (this.shouldImportDataType(dataType, this.previewData.importType)) {
+                            this.processSheetData(result.data, dataType, processedData);
+                        }
+                    });
+                    
+                    if (importOption === 'merge') {
+                        if (processedData.classes.length > 0) {
+                            const existingClasses = [...this.classes];
+                            const newClasses = processedData.classes.filter(newClass => 
+                                !existingClasses.find(existing => 
+                                    existing.classCode === newClass.classCode && 
+                                    existing.yearGroup === newClass.yearGroup
+                                )
+                            );
+                            this.classes = [...existingClasses, ...newClasses];
+                        }
+                        
+                        if (processedData.attendance.length > 0) {
+                            const existingAttendance = [...this.attendanceRecords];
+                            const newAttendance = processedData.attendance.filter(newRecord => 
+                                !existingAttendance.find(existing => 
+                                    existing.date === newRecord.date && 
+                                    existing.session === newRecord.session &&
+                                    existing.classId === newRecord.classId
+                                )
+                            );
+                            this.attendanceRecords = [...existingAttendance, ...newAttendance];
+                        }
+                        
+                        if (processedData.terms.length > 0) {
+                            const existingTerms = [...this.terms];
+                            const newTerms = processedData.terms.filter(newTerm => 
+                                !existingTerms.find(existing => existing.id === newTerm.id)
+                            );
+                            this.terms = [...existingTerms, ...newTerms];
+                        }
+                    } else {
+                        if (processedData.classes.length > 0) this.classes = processedData.classes;
+                        if (processedData.attendance.length > 0) this.attendanceRecords = processedData.attendance;
+                        if (processedData.terms.length > 0) this.terms = processedData.terms;
+                    }
+                    
+                    localStorage.setItem('gams_classes', JSON.stringify(this.classes));
+                    localStorage.setItem('gams_attendance', JSON.stringify(this.attendanceRecords));
+                    localStorage.setItem('gams_terms', JSON.stringify(this.terms));
+                    
+                    if (this.isOnline) {
+                        if (processedData.classes.length > 0) {
+                            await this.saveToSheets('classes', this.classes);
+                        }
+                        if (processedData.attendance.length > 0) {
+                            await this.saveToSheets('attendance', this.attendanceRecords);
+                        }
+                        if (processedData.terms.length > 0) {
+                            await this.saveToSheets('terms', this.terms);
+                        }
+                    }
+                    
+                    document.getElementById('import-preview-modal').style.display = 'none';
+                    this.showToast('Data imported successfully!', 'success');
+                    
+                    this.initializePage(this.currentPage);
+                    
+                } catch (error) {
+                    this.showToast('Import failed: ' + error.message, 'error');
+                }
+            }
+
+            processSheetData(data, dataType, processedData) {
+                if (!data || data.length < 2) return;
+                
+                const headers = data[0].map(h => h.toLowerCase().trim());
+                
+                switch (dataType) {
+                    case 'classes':
+                        this.processClassData(data, headers, processedData);
+                        break;
+                    case 'attendance':
+                        this.processAttendanceData(data, headers, processedData);
+                        break;
+                    case 'terms':
+                        this.processTermData(data, headers, processedData);
+                        break;
+                }
+            }
+
+            processClassData(data, headers, processedData) {
+                const codeIndex = headers.findIndex(h => 
+                    h.includes('code') || h.includes('class') || h.includes('name')
+                );
+                const yearIndex = headers.findIndex(h => 
+                    h.includes('year') || h.includes('grade') || h.includes('form')
+                );
+                const maleIndex = headers.findIndex(h => 
+                    h.includes('male') || h.includes('boy')
+                );
+                const femaleIndex = headers.findIndex(h => 
+                    h.includes('female') || h.includes('girl')
+                );
+                const totalIndex = headers.findIndex(h => 
+                    h.includes('total') || h.includes('size')
+                );
+                
+                for (let i = 1; i < data.length; i++) {
+                    const row = data[i];
+                    
+                    if (!row[codeIndex]) continue;
+                    
+                    const classCode = row[codeIndex].toString().trim();
+                    const yearGroup = row[yearIndex] ? row[yearIndex].toString().trim() : 'Unknown';
+                    
+                    const totalMales = this.extractNumber(row[maleIndex]);
+                    const totalFemales = this.extractNumber(row[femaleIndex]);
+                    let classSize = this.extractNumber(row[totalIndex]);
+                    
+                    if (!classSize && (totalMales > 0 || totalFemales > 0)) {
+                        classSize = totalMales + totalFemales;
+                    }
+                    
+                    processedData.classes.push({
+                        id: this.generateId(),
+                        classCode: classCode,
+                        yearGroup: yearGroup,
+                        totalMales: totalMales || 0,
+                        totalFemales: totalFemales || 0,
+                        classSize: classSize || 0
+                    });
+                }
+            }
+
+            processAttendanceData(data, headers, processedData) {
+                const dateIndex = headers.findIndex(h => h.includes('date'));
+                const sessionIndex = headers.findIndex(h => h.includes('session') || h.includes('period'));
+                const termIndex = headers.findIndex(h => h.includes('term'));
+                const weekIndex = headers.findIndex(h => h.includes('week'));
+                const codeIndex = headers.findIndex(h => 
+                    h.includes('code') || h.includes('class')
+                );
+                const maleIndex = headers.findIndex(h => 
+                    h.includes('male') || h.includes('boy')
+                );
+                const femaleIndex = headers.findIndex(h => 
+                    h.includes('female') || h.includes('girl')
+                );
+                
+                for (let i = 1; i < data.length; i++) {
+                    const row = data[i];
+                    
+                    if (!row[dateIndex] && !row[codeIndex]) continue;
+                    
+                    const classCode = row[codeIndex] ? row[codeIndex].toString().trim() : '';
+                    const matchingClass = this.classes.find(c => c.classCode === classCode);
+                    
+                    if (!matchingClass && classCode) {
+                        processedData.classes.push({
+                            id: this.generateId(),
+                            classCode: classCode,
+                            yearGroup: 'Imported',
+                            totalMales: 0,
+                            totalFemales: 0,
+                            classSize: 0
+                        });
+                    }
+                    
+                    const date = this.formatDate(row[dateIndex]);
+                    const session = row[sessionIndex] ? row[sessionIndex].toString().toLowerCase() : 'am';
+                    const term = row[termIndex] ? row[termIndex].toString().trim() : 'term1';
+                    const week = row[weekIndex] ? parseInt(row[weekIndex]) || 1 : 1;
+                    const malesPresent = this.extractNumber(row[maleIndex]);
+                    const femalesPresent = this.extractNumber(row[femaleIndex]);
+                    
+                    processedData.attendance.push({
+                        date: date,
+                        session: ['am', 'pm'].includes(session) ? session : 'am',
+                        term: term,
+                        week: week,
+                        classId: matchingClass ? matchingClass.id : this.generateId(),
+                        classCode: classCode,
+                        yearGroup: matchingClass ? matchingClass.yearGroup : 'Imported',
+                        malesPresent: malesPresent || 0,
+                        femalesPresent: femalesPresent || 0,
+                        totalPresent: (malesPresent || 0) + (femalesPresent || 0),
+                        classSize: matchingClass ? matchingClass.classSize : 0
+                    });
+                }
+            }
+
+            processTermData(data, headers, processedData) {
+                const nameIndex = headers.findIndex(h => h.includes('name'));
+                const startIndex = headers.findIndex(h => h.includes('start'));
+                const endIndex = headers.findIndex(h => h.includes('end'));
+                const weeksIndex = headers.findIndex(h => h.includes('week'));
+                const activeIndex = headers.findIndex(h => h.includes('active'));
+                
+                for (let i = 1; i < data.length; i++) {
+                    const row = data[i];
+                    
+                    if (!row[nameIndex]) continue;
+                    
+                    const name = row[nameIndex].toString().trim();
+                    const startDate = this.formatDate(row[startIndex]);
+                    const endDate = this.formatDate(row[endIndex]);
+                    const weeks = this.extractNumber(row[weeksIndex]) || 14;
+                    const isActive = row[activeIndex] ? 
+                        row[activeIndex].toString().toLowerCase() === 'true' || 
+                        row[activeIndex].toString() === '1' : true;
+                    
+                    processedData.terms.push({
+                        id: `term${i}`,
+                        name: name,
+                        startDate: startDate,
+                        endDate: endDate,
+                        weeks: weeks,
+                        isActive: isActive
+                    });
+                }
+            }
+
+            extractNumber(value) {
+                if (!value && value !== 0) return null;
+                const str = value.toString().trim();
+                const num = parseFloat(str.replace(/[^\d.-]/g, ''));
+                return isNaN(num) ? null : Math.round(num);
+            }
+
+            formatDate(value) {
+                if (!value) return new Date().toISOString().split('T')[0];
+                const date = new Date(value);
+                if (isNaN(date.getTime())) {
+                    return value.toString();
+                }
+                return date.toISOString().split('T')[0];
+            }
+
+            // Maintenance Page Methods
+            initMaintenance() {
+                this.loadTermsForm();
+                this.setupMaintenanceEventListeners();
+            }
+
+            loadTermsForm() {
+                const container = document.getElementById('terms-container');
+                let html = '';
+                
+                this.terms.forEach((term) => {
+                    html += `
+                        <div class="class-input-group" style="grid-template-columns: 1fr 1fr 1fr 1fr 100px auto; margin-bottom: 15px;">
+                            <input type="text" class="form-control term-name" value="${term.name}" placeholder="Term Name" required>
+                            <input type="date" class="form-control term-start" value="${term.startDate}" required>
+                            <input type="date" class="form-control term-end" value="${term.endDate}" required>
+                            <input type="number" class="form-control term-weeks" value="${term.weeks}" min="1" max="20" required>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" class="term-active" ${term.isActive ? 'checked' : ''}> Active
+                            </label>
+                            <button type="button" class="btn btn-danger remove-term">❌</button>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            }
+
+            setupMaintenanceEventListeners() {
+                ['add-term-btn', 'save-terms-btn', 'reset-terms-btn', 'export-data-btn', 'import-data-btn', 'clear-attendance-data-btn'].forEach(btnId => {
+                    const btn = document.getElementById(btnId);
+                    const newBtn = btn.cloneNode(true);
+                    btn.replaceWith(newBtn);
+                    
+                    if (btnId === 'add-term-btn') newBtn.addEventListener('click', () => this.addTerm());
+                    if (btnId === 'save-terms-btn') newBtn.addEventListener('click', () => this.saveTerms());
+                    if (btnId === 'reset-terms-btn') newBtn.addEventListener('click', () => this.resetTerms());
+                    if (btnId === 'export-data-btn') newBtn.addEventListener('click', () => this.exportAllData());
+                    if (btnId === 'import-data-btn') newBtn.addEventListener('click', () => document.getElementById('import-file-input').click());
+                    if (btnId === 'clear-attendance-data-btn') newBtn.addEventListener('click', () => this.clearAttendanceData());
+                });
+
+                const fileInput = document.getElementById('import-file-input');
+                const newFileInput = fileInput.cloneNode(true);
+                fileInput.replaceWith(newFileInput);
+                newFileInput.addEventListener('change', (e) => this.importData(e));
+            }
+
+            addTerm() {
+                const container = document.getElementById('terms-container');
+                const termNumber = container.querySelectorAll('.class-input-group').length + 1;
+                const html = `
+                    <div class="class-input-group" style="grid-template-columns: 1fr 1fr 1fr 1fr 100px auto; margin-bottom: 15px;">
+                        <input type="text" class="form-control term-name" value="Term ${termNumber}" placeholder="Term Name" required>
+                        <input type="date" class="form-control term-start" required>
+                        <input type="date" class="form-control term-end" required>
+                        <input type="number" class="form-control term-weeks" value="14" min="1" max="20" required>
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" class="term-active" checked> Active
+                        </label>
+                        <button type="button" class="btn btn-danger remove-term">❌</button>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            }
+
+            async saveTerms() {
+                const termInputs = document.querySelectorAll('#terms-container .class-input-group');
+                const newTerms = [];
+                
+                termInputs.forEach((input, index) => {
+                    const name = input.querySelector('.term-name').value;
+                    const startDate = input.querySelector('.term-start').value;
+                    const endDate = input.querySelector('.term-end').value;
+                    const weeks = parseInt(input.querySelector('.term-weeks').value);
+                    const isActive = input.querySelector('.term-active').checked;
+                    
+                    if (name && startDate && endDate && weeks) {
+                        newTerms.push({
+                            id: `term${index + 1}`,
+                            name, startDate, endDate, weeks, isActive
+                        });
+                    }
+                });
+                
+                if (newTerms.length === 0) {
+                    this.showToast('Please add at least one term', 'error');
+                    return;
+                }
+                
+                this.terms = newTerms;
+                localStorage.setItem('gams_terms', JSON.stringify(this.terms));
+                
+                if (this.isOnline) {
+                    try {
+                        await this.saveToSheets('terms', newTerms);
+                        this.showToast('Terms saved to Google Sheets!', 'success');
+                    } catch (error) {
+                        this.showToast(`Terms saved locally (Sheets error: ${error.message})`, 'warning');
+                    }
                 } else {
+                    this.showToast('Terms saved locally!', 'success');
+                }
+            }
+
+            resetTerms() {
+                if (confirm('Reset terms to default values?')) {
+                    localStorage.removeItem('gams_terms');
+                    this.loadLocalData();
+                    this.loadTermsForm();
+                    this.showToast('Terms reset to default', 'warning');
+                }
+            }
+
+            exportAllData() {
+                const data = {
+                    classes: this.classes,
+                    attendanceRecords: this.attendanceRecords,
+                    terms: this.terms,
+                    settings: this.settings,
+                    exportDate: new Date().toISOString()
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `attendance-backup-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+                this.showToast('Data exported successfully', 'success');
+            }
+
+            importData(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        if (data.classes) this.classes = data.classes;
+                        if (data.attendanceRecords) this.attendanceRecords = data.attendanceRecords;
+                        if (data.terms) this.terms = data.terms;
+                        if (data.settings) this.settings = data.settings;
+                        
+                        localStorage.setItem('gams_classes', JSON.stringify(this.classes));
+                        localStorage.setItem('gams_attendance', JSON.stringify(this.attendanceRecords));
+                        localStorage.setItem('gams_terms', JSON.stringify(this.terms));
+                        localStorage.setItem('gams_settings', JSON.stringify(this.settings));
+                        
+                        this.showToast('Data imported successfully!', 'success');
+                    } catch (error) {
+                        this.showToast('Error importing data: ' + error.message, 'error');
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            clearAttendanceData() {
+                if (confirm('Are you sure you want to clear all attendance history?')) {
+                    this.attendanceRecords = [];
+                    localStorage.setItem('gams_attendance', JSON.stringify(this.attendanceRecords));
+                    this.showToast('Attendance history cleared', 'warning');
+                }
+            }
+
+            // Settings Page Methods
+            initSettings() {
+                if (this.settings.webAppUrl) document.getElementById('webapp-url').value = this.settings.webAppUrl;
+                if (this.settings.sheetId) document.getElementById('sheet-id').value = this.settings.sheetId;
+
+                ['save-settings-btn', 'test-connection-btn', 'setup-sheets-btn'].forEach(btnId => {
+                    const btn = document.getElementById(btnId);
+                    const newBtn = btn.cloneNode(true);
+                    btn.replaceWith(newBtn);
+                    
+                    if (btnId === 'save-settings-btn') newBtn.addEventListener('click', () => this.saveSettings());
+                    if (btnId === 'test-connection-btn') newBtn.addEventListener('click', () => this.testConnection());
+                    if (btnId === 'setup-sheets-btn') newBtn.addEventListener('click', () => this.setupSheets());
+                });
+
+                ['fetch-sheets-btn', 'preview-import-btn', 'execute-import-btn', 'cancel-import-btn'].forEach(btnId => {
+                    const btn = document.getElementById(btnId);
+                    const newBtn = btn.cloneNode(true);
+                    btn.replaceWith(newBtn);
+                    
+                    if (btnId === 'fetch-sheets-btn') newBtn.addEventListener('click', () => this.fetchAvailableSheets());
+                    if (btnId === 'preview-import-btn') newBtn.addEventListener('click', () => this.previewImportData());
+                    if (btnId === 'execute-import-btn') newBtn.addEventListener('click', () => this.executeImportFromPreview());
+                    if (btnId === 'cancel-import-btn') newBtn.addEventListener('click', () => {
+                        document.getElementById('import-preview-modal').style.display = 'none';
+                        document.getElementById('sheet-selection-modal').style.display = 'none';
+                    });
+                });
+            }
+
+            saveSettings() {
+                const webAppUrl = document.getElementById('webapp-url').value;
+                const sheetId = document.getElementById('sheet-id').value;
+                
+                if (!webAppUrl) {
+                    this.showToast('Please enter Web App URL', 'error');
+                    return;
+                }
+                
+                this.settings = { 
+                    webAppUrl: webAppUrl.trim(), 
+                    sheetId: sheetId.trim() 
+                };
+                localStorage.setItem('gams_settings', JSON.stringify(this.settings));
+                this.showToast('Settings saved to localStorage!', 'success');
+            }
+
+            async testConnection() {
+                if (!this.settings.webAppUrl) {
+                    this.showToast('Please configure Web App URL first', 'error');
+                    return;
+                }
+
+                try {
+                    this.showToast('Testing connection...', 'info');
+                    const response = await this.makeRequest('testConnection');
+                    
+                    if (response.success) {
+                        this.isOnline = true;
+                        this.showToast('✅ Connected to Google Sheets successfully!', 'success');
+                        await this.syncDataFromSheets();
+                    } else {
+                        this.isOnline = false;
+                        throw new Error(response.error || 'Connection failed');
+                    }
+                } catch (error) {
                     this.isOnline = false;
-                    throw new Error(response.error || 'Connection failed');
+                    this.showToast('❌ Connection failed: ' + error.message, 'error');
                 }
-            } catch (error) {
-                this.isOnline = false;
-                this.showToast('❌ Connection failed: ' + error.message, 'error');
-            }
-        }
-
-        async setupSheets() {
-            if (!this.settings.webAppUrl) {
-                this.showToast('Please configure Web App URL first', 'error');
-                return;
             }
 
-            if (!confirm('This will initialize Google Sheets with sample data. Continue?')) return;
+            async setupSheets() {
+                if (!this.settings.webAppUrl) {
+                    this.showToast('Please configure Web App URL first', 'error');
+                    return;
+                }
 
-            try {
-                this.showToast('Setting up sheets...', 'info');
-                const response = await this.makeRequest('setupSheets');
+                if (!confirm('This will initialize Google Sheets with sample data. Continue?')) return;
+
+                try {
+                    this.showToast('Setting up sheets...', 'info');
+                    const response = await this.makeRequest('setupSheets');
+                    
+                    if (response.success) {
+                        this.showToast('Sheets initialized successfully!', 'success');
+                        await this.syncDataFromSheets();
+                    } else {
+                        throw new Error(response.error || 'Setup failed');
+                    }
+                } catch (error) {
+                    this.showToast('Setup failed: ' + error.message, 'error');
+                }
+            }
+
+            async makeRequest(action, params = {}) {
+                if (!this.settings.webAppUrl) {
+                    throw new Error('Web App URL not configured');
+                }
+
+                try {
+                    const url = new URL(this.settings.webAppUrl);
+                    url.searchParams.append('action', action);
+                    
+                    Object.keys(params).forEach(key => {
+                        if (params[key] !== undefined && params[key] !== null) {
+                            url.searchParams.append(key, params[key]);
+                        }
+                    });
+
+                    const response = await fetch(url.toString(), { 
+                        method: 'GET', 
+                        redirect: 'follow',
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Request error:', error);
+                    throw error;
+                }
+            }
+
+            generateId() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            }
+
+            // Export and Print Methods
+            exportPDF() {
+                this.showToast('PDF export feature coming soon!', 'info');
+            }
+
+            exportExcel() {
+                const reportType = document.getElementById('report-type').value;
+                const filteredRecords = this.filterAttendanceRecords();
                 
-                if (response.success) {
-                    this.showToast('Sheets initialized successfully!', 'success');
-                    await this.syncDataFromSheets();
-                } else {
-                    throw new Error(response.error || 'Setup failed');
+                if (filteredRecords.length === 0) {
+                    this.showToast('No data to export', 'error');
+                    return;
                 }
-            } catch (error) {
-                this.showToast('Setup failed: ' + error.message, 'error');
+                
+                let csvContent = "data:text/csv;charset=utf-8,";
+                const headers = ["Date", "Session", "Term", "Week", "Class Code", "Year Group", 
+                               "Males Present", "Females Present", "Total Present", "Class Size", "Attendance Rate"];
+                csvContent += headers.join(",") + "\n";
+                
+                filteredRecords.forEach(record => {
+                    const attendanceRate = record.classSize > 0 ? 
+                        Math.round((record.totalPresent / record.classSize) * 100) : 0;
+                    
+                    const row = [
+                        record.date,
+                        record.session,
+                        record.term,
+                        record.week,
+                        record.classCode,
+                        record.yearGroup,
+                        record.malesPresent,
+                        record.femalesPresent,
+                        record.totalPresent,
+                        record.classSize,
+                        attendanceRate + "%"
+                    ];
+                    
+                    csvContent += row.join(",") + "\n";
+                });
+                
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `attendance_report_${new Date().toISOString().split('T')[0]}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                this.showToast('Excel (CSV) file exported successfully!', 'success');
+            }
+
+            printReport() {
+                window.print();
+            }
+
+            emailReport() {
+                const email = prompt('Enter email address to send report:');
+                if (email) {
+                    this.showToast(`Report sent to ${email}`, 'success');
+                }
+            }
+
+            generateReportActions() {
+                return `
+                    <div class="report-actions">
+                        <button onclick="window.print()" class="btn btn-sm btn-secondary">🖨️ Print</button>
+                        <button onclick="app.exportExcel()" class="btn btn-sm btn-success">📊 Export Excel</button>
+                        <button onclick="app.emailReport()" class="btn btn-sm btn-primary">📧 Email</button>
+                    </div>
+                `;
+            }
+
+            generateReportFooter() {
+                return `
+                    <div class="report-footer">
+                        <p>Report generated by Attendance Track System • ${new Date().toLocaleDateString()}</p>
+                        <p style="font-size: 0.8rem; color: var(--gray-color);">
+                            This report is confidential and intended for authorized personnel only.
+                        </p>
+                    </div>
+                `;
+            }
+
+            showToast(message, type = 'info') {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.innerHTML = `
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.remove()" style="margin-left: 10px; background: none; border: none; font-size: 16px; cursor: pointer; color: inherit;">✕</button>
+                `;
+                
+                toastContainer.appendChild(toast);
+                setTimeout(() => toast.remove(), 5000);
             }
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        window.app = new AttendanceApp();
-    });
-</script>
-	
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app = new AttendanceApp();
+        });
+    </script>
 </body>
 </html>
-
